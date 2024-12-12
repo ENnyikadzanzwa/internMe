@@ -1,0 +1,175 @@
+<!-- update_vacancy.html -->
+{% extends 'core/company/main.html' %}
+{% load static %}
+{% block content %}
+<style>
+    /* ===========Post vacancy form ========*/
+main .recent-applications .form-container{
+    max-width: 700px;
+    width: 100%;
+    background: #fff;
+    padding: 25px 30px;
+    border-radius: 5px;
+}
+main .recent-applications .form-container .title{
+    font-size: 25px;
+    font-weight: 500;
+    position: relative;
+}
+main .recent-applications .form-container .title::before{
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 70px;
+    background: linear-gradient(90deg,#e2e2e2,#9ae4b0);
+   
+}
+main .recent-applications .form-container form .user-details{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 20px 0 12px 0;
+}
+main .recent-applications form .user-details .input-box{
+    margin-bottom: 15px;
+    width: calc(100% / 2 - 20px);
+}
+
+main .recent-applications .user-details .input-box  .details{
+    display: block;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+main .recent-application .user-details .input-box.text input{
+    height: 195px;
+}
+main .recent-applications .user-details .input-box input{
+    height: 45px;
+    width: 100%;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding-left: 15px;
+    font-size: 16px;
+    border-bottom-width: 2px;
+    transition: all 0.3s ease;
+}
+
+.user-details .input-box input:focus,
+.user-details .input-box input:valid{
+    border-color: #5fcf80;
+}
+form .button{
+    height: 45px;
+    margin: 20px 0;
+}
+form .button input{
+    height: 100%;
+    width: 100%;
+    outline: none;
+    color: #fff;
+    border: none;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    border-radius: 5px;
+    background: #5fcf80 ;
+}
+form .button a{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    margin: 20px 0;
+    color: #73e294;
+}
+form .button a:hover{
+    color: #c5793b;
+}
+form .button input:hover{
+    background: #73e294;
+    color: #000;
+}
+@media screen and (max-width:584px) {
+    .container{
+        max-width: 100%;
+    }
+    form .user-details .input-box{
+        margin-bottom: 15px;
+        width: 100%;
+    }
+}
+</style>
+<main>
+    <h1>Update Vacancy: {{ vacancy.title }}</h1>
+    <div class="date">
+        <input type="date">
+    </div>
+    <div class="recent-applications">
+        <div class="form-container">
+            <div class="title">Vacancy</div>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="user-details">
+                    <div class="input-box">
+                        <span class="details">Title</span>
+                        <input name="title" type="text"  value="{{ vacancy.title }}">
+                    </div>
+                    <div class="input-box text">
+                        <span class="details ">Description</span>
+                        <input  name="description" type="text-area"  value="{{ vacancy.description }}">
+                    </div>
+                    <div class="input-box text">
+                        <span class="details">Requirements</span>
+                        <input name="requirements" type="text-area"   value="{{ vacancy.requirements }}">
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Location</span>
+                        <input name="location" type="text"  value="{{ vacancy.location }}">
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Application Deadline</span>
+                        <input name="application_deadline" type="date"   value="{{ vacancy.application_deadline }}">
+                    </div> 
+                </div>
+                <div class="button">
+                        <input type="submit" value="Update Vacancy">
+                    </div>
+            </form>
+        </div>
+
+    </div>
+</main>
+<div class="right">
+    {% include 'core/company/header.html' %}
+</div>
+<!-- <div class="container">
+    <h2 class="text-center">Update Vacancy: {{ vacancy.title }}</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_title">Title</label>
+            {{ form.title }}
+        </div>
+        <div class="form-group">
+            <label for="id_description">Description</label>
+            {{ form.description }}
+        </div>
+        <div class="form-group">
+            <label for="id_requirements">Requirements</label>
+            {{ form.requirements }}
+        </div>
+        <div class="form-group">
+            <label for="id_location">Location</label>
+            {{ form.location }}
+        </div>
+        <div class="form-group">
+            <label for="id_application_deadline">Application Deadline</label>
+            {{ form.application_deadline }}
+        </div>
+        <button type="submit" class="btn btn-primary">Update Vacancy</button>
+    </form>
+</div> -->
+{% endblock %}

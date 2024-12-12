@@ -1,0 +1,15 @@
+<!-- create_cover_letter.html -->
+{% extends 'core/student/index.html' %}
+{% block content %}
+<div class="container">
+    <h2>Create Your Cover Letter</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="cover_letter_file">Upload Cover Letter</label>
+            <input type="file" name="cover_letter_file" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Create Cover Letter</button>
+    </form>
+</div>
+{% endblock %}

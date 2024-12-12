@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% include 'core/university/navbar.html' %}
+
+  <div class="container">
+    <h2>University Dashboard - {{ university.name }}</h2>
+    <h4>Registered Students</h4>
+    <ul>
+      {% for student in students %}
+        <li>{{ student.user.username }} - {{ student.registration_number }} - {{ student.program_of_study }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}

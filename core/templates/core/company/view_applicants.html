@@ -1,0 +1,35 @@
+<!-- view_applicants.html -->
+{% extends 'core/company/main.html' %}
+{% load static %}
+{% block content %}
+
+<main>
+    <div class="recent-applications">
+        <h2>Applicants for {{ vacancy.title }}</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Status</th>
+                    <th>Applied At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for application in applicants %}
+                <tr>
+                    <td>{{ application.student.user.username }}</td>
+                    <td>{{ application.status }}</td>
+                    <td>{{ application.applied_at }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3">No applicants yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+</main>
+<div class="right">
+    {% include 'core/company/header.html' %}
+</div>
+{% endblock %}

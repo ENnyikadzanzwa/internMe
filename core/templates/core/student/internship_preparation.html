@@ -1,0 +1,23 @@
+{% extends 'core/student/index.html' %}
+{%  load static %}
+{% block content %}
+<h1>Internship Preparation</h1>
+
+<div>
+    <h2>Your Resume</h2>
+    {% if resume %}
+        <p><a href="{{ resume }}" target="_blank">View Resume</a></p>
+    {% else %}
+        <p>You have not uploaded a resume yet.</p>
+    {% endif %}
+</div>
+
+<div>
+    <h2>Your Cover Letter</h2>
+    {% if cover_letter %}
+        <p><a href="{{ cover_letter }}" target="_blank">View Cover Letter</a></p>
+    {% else %}
+        <p>You have not uploaded a cover letter yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

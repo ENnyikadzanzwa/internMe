@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container">
+    <h2>System Admin Dashboard</h2>
+    <h4>Registered Users</h4>
+    <ul>
+      {% for user in users %}
+        <li>{{ user.user.username }} - Role: {{ user.role }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}

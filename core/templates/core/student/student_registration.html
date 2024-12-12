@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'auth/reg-styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="title">Student Registrationn</div>
+        <form method="POST" class="form" action="{% url 'student_registration' %}">
+            {% csrf_token %}
+            <div class="user-details">
+                <div class="input-box">
+                    <span class="details">Registration Number</span>
+                    <input type="text" name="registration_number" placeholder="Instutution Name" required value="{{ form.registration_number.value|default:'' }}">
+                </div>
+                <div class="input-box">
+                    <span class="details"> Select Instutution</span>
+                    {{ form.university }}
+                    <!-- <input type="text" name="address" placeholder="Instutution Address" required value="{{ form.address.value|default:'' }}"> -->
+                </div>
+                
+                <div class="input-box">
+                    <span class="details">Email</span>
+                    <input type="email" name="email" placeholder="Enter your email" required value="{{ form.email.value|default:'' }}">
+                </div>
+                <div class="input-box">
+                    <span class="details">Password</span>
+                    <input type="password" name="password" placeholder="Enter Password" required value="{{ form.password.value|default:'' }}">
+                </div>   
+            </div>
+            <div class="button">
+                    <input type="submit" value="Register">
+                    <a href="{% url 'login' %}">Already have an account Login</a>
+                </div>
+        </form>
+    </div>
+</body>
+</html>
+
+

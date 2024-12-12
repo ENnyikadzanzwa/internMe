@@ -1,0 +1,135 @@
+
+{% extends 'core/company/main.html' %}
+{% load static %}
+{% block content%}
+<main>
+    <h1>Dashboard</h1>
+    <div class="date">
+        <input type="date">
+    </div>
+    <div class="insights">
+        <div class="internships">s
+            <span class="material-icons-sharp">work</span>
+            <div class="middle">
+                <div class="left">
+                    <h3>Total Internship Posts</h3>
+                    <h1>10</h1>
+                </div>
+                <div class="progress">
+                    <svg>
+                        <circle cx="37" cy="37" r="36"></circle>
+                    </svg>
+                    <div class="number">
+                        <p>80%</p>
+                    </div>
+                </div>
+                
+            </div>
+            <small class="text-muted">Last 24hrs</small>
+        </div>
+        <!-- end of internships -->
+        <div class="applications">
+            <span class="material-icons-sharp">description</span>
+            <div class="middle">
+                <div class="left">
+                    <h3>Total Applications</h3>
+                    <h1>10</h1>
+                </div>
+                <div class="progress">
+                    <svg>
+                        <circle cx="37" cy="37" r="36"></circle>
+                    </svg>
+                    <div class="number">
+                        <p>80%</p>
+                    </div>
+                </div>
+                
+            </div>
+            <small class="text-muted">Last 24hrs</small>
+        </div>
+        <!-- end of applications -->
+        <div class="students">
+            <span class="material-icons-sharp">group</span>
+            <div class="middle">
+                <div class="left">
+                    <h3>Enrolled students</h3>
+                    <h1>10</h1>
+                </div>
+                <div class="progress">
+                    <svg>
+                        <circle cx="37" cy="37" r="36"></circle>
+                    </svg>
+                    <div class="number">
+                        <p>80%</p>
+                    </div>
+                </div>
+                
+            </div>
+            <small class="text-muted">Last 24hrs</small>
+        </div>
+        <!-- end of students -->
+    </div>
+
+    <div class="recent-applications">
+        <h2>Recent Applications</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Applicant ID</th>
+                    <th>Applicant Name</th>
+                    <th>Resume</th>
+                    <th>Cover letter</th>
+                    <th>Application Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>001</td>
+                    <td>John Doe</td>
+                    <td>[resume]</td>
+                    <td>[cover letter]</td>
+                    <td class="warning">pending</td>
+                </tr>
+                <tr>
+                    <td>001</td>
+                    <td>John Doe</td>
+                    <td>[resume]</td>
+                    <td>[cover letter]</td>
+                    <td class="warning">pending</td>
+                </tr>
+                <tr>
+                    <td>001</td>
+                    <td>John Doe</td>
+                    <td>[resume]</td>
+                    <td>[cover letter]</td>
+                    <td class="warning">pending</td>
+                </tr>
+                <tr>
+                    <td>001</td>
+                    <td>John Doe</td>
+                    <td>[resume]</td>
+                    <td>[cover letter]</td>
+                    <td class="warning">pending</td>
+                </tr>
+                <tr>
+                    <td>001</td>
+                    <td>John Doe</td>
+                    <td>[resume]</td>
+                    <td>[cover letter]</td>
+                    <td class="warning">pending</td>
+                </tr>
+                <tr>
+                    <td>001</td>
+                    <td>John Doe</td>
+                    <td>[resume]</td>
+                    <td>[cover letter]</td>
+                    <td class="warning">pending</td>
+                </tr>
+            </tbody>
+        </table>
+        <a href="#">Show All</a>
+    </div>
+</main>
+
+ {% include 'core/company/right.html' %}
+ {% endblock %}

@@ -1,0 +1,516 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>internMe - WRL PLATFORM</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Favicons -->
+  <link href="{% static 'website-assets/img/favicon.png' %}" rel="icon">
+  <link href="{%  static 'website-assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'website-assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'website-assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'website-assets/vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'website-assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'website-assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="{% static 'website-assets/css/main.css' %}" rel="stylesheet">
+
+</head>
+
+<body class="index-page">
+
+  <header id="header" class="header d-flex align-items-center sticky-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center">
+
+      <a href="#" class="logo d-flex align-items-center me-auto">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="assets/img/logo.png" alt=""> -->
+        <h1 class="sitename">internMe</h1>
+      </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="index.html" class="active">Home<br></a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="courses.html">Features</a></li>
+          <!-- <li><a href="trainers.html">Trainers</a></li> -->
+          <!-- <li><a href="events.html">Events</a></li> -->
+          <li><a href="pricing.html">Pricing</a></li>
+          <li class="dropdown"><a href="#"><span>Register</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul>
+              <li><a href="{% url 'company_registration' %}">Company</a></li>
+              <li><a href="{% url 'university_registration' %}">Instutution</a></li>
+              <li><a href="{% url 'student_registration' %}">Student</a></li>
+              <li><a href="{% url 'login' %}">Login</a></li>
+            </ul>
+          </li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+
+      <a class="btn-getstarted" href="{% url 'get-started' %}">Get Started</a>
+
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero section dark-background">
+
+      <img src="{% static 'website-assets/img/hero-bg.jpg' %}" alt="" data-aos="fade-in">
+
+      <div class="container">
+        <h2 data-aos="fade-up" data-aos-delay="100">Building Skills Today,<br>Shaping Careers Tomorrow</h2>
+        <p data-aos="fade-up" data-aos-delay="200">We connect students, institutions, and companies to create impactful learning and work experiences.</p>
+        <div class="d-flex mt-4" data-aos="fade-up" data-aos-delay="300">
+          <a href="{% url 'get-started' %}" class="btn-get-started">Get Started</a>
+        </div>
+      </div>
+
+    </section><!-- /Hero Section -->
+
+  <!-- About Section -->
+  <section id="about" class="about section">
+
+    <div class="container">
+
+      <div class="row gy-4">
+
+        <div class="col-lg-6 order-1 order-lg-2" data-aos="fade-up" data-aos-delay="100">
+          <img src="{% static 'website-assets/img/about.jpg' %}" class="img-fluid" alt="About InternMe">
+        </div>
+
+        <div class="col-lg-6 order-2 order-lg-1 content" data-aos="fade-up" data-aos-delay="200">
+          <h3>Empowering Connections Between Students, Companies, and Institutions</h3>
+          <p class="fst-italic">
+            InternMe simplifies the journey of internships, connecting students, companies, and universities to foster collaboration, learning, and career success.
+          </p>
+          <ul>
+            <li><i class="bi bi-check-circle"></i> <span>Discover internships tailored to your skills and aspirations.</span></li>
+            <li><i class="bi bi-check-circle"></i> <span>Streamline collaboration between institutions and industries.</span></li>
+            <li><i class="bi bi-check-circle"></i> <span>Manage and track internship experiences efficiently for all stakeholders.</span></li>
+          </ul>
+          <a href="#" class="read-more"><span>Learn More</span><i class="bi bi-arrow-right"></i></a>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section><!-- /About Section -->
+
+
+<!-- Counts Section -->
+    <section id="counts" class="section counts light-background">
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-3 col-md-6">
+            <div class="stats-item text-center w-100 h-100">
+              <span data-purecounter-start="0" data-purecounter-end="5000" data-purecounter-duration="1" class="purecounter"></span>
+              <p>Students Enrolled</p>
+            </div>
+          </div><!-- End Stats Item -->
+
+          <div class="col-lg-3 col-md-6">
+            <div class="stats-item text-center w-100 h-100">
+              <span data-purecounter-start="0" data-purecounter-end="200" data-purecounter-duration="1" class="purecounter"></span>
+              <p>Companies Connected</p>
+            </div>
+          </div><!-- End Stats Item -->
+
+          <div class="col-lg-3 col-md-6">
+            <div class="stats-item text-center w-100 h-100">
+              <span data-purecounter-start="0" data-purecounter-end="150" data-purecounter-duration="1" class="purecounter"></span>
+              <p>Universities Partnered</p>
+            </div>
+          </div><!-- End Stats Item -->
+
+          <div class="col-lg-3 col-md-6">
+            <div class="stats-item text-center w-100 h-100">
+              <span data-purecounter-start="0" data-purecounter-end="350" data-purecounter-duration="1" class="purecounter"></span>
+              <p>Internships Completed</p>
+            </div>
+          </div><!-- End Stats Item -->
+
+        </div>
+
+      </div>
+
+    </section><!-- /Counts Section -->
+
+
+    <!-- Why Us Section -->
+    <section id="why-us" class="section why-us">
+
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="why-box">
+              <h3>Why Choose InternMe?</h3>
+              <p>
+                At InternMe, we bridge the gap between students, universities, and companies by providing an integrated platform to access internships, build skills, and gain valuable experience. Our innovative solutions empower students to excel in their careers.
+              </p>
+              <div class="text-center">
+                <a href="#" class="more-btn"><span>Learn More</span> <i class="bi bi-chevron-right"></i></a>
+              </div>
+            </div>
+          </div><!-- End Why Box -->
+
+          <div class="col-lg-8 d-flex align-items-stretch">
+            <div class="row gy-4" data-aos="fade-up" data-aos-delay="200">
+
+              <div class="col-xl-4">
+                <div class="icon-box d-flex flex-column justify-content-center align-items-center">
+                  <i class="bi bi-clipboard-data"></i>
+                  <h4>Streamlined Internships</h4>
+                  <p>Access verified internship opportunities tailored to your field of study and career goals.</p>
+                </div>
+              </div><!-- End Icon Box -->
+
+              <div class="col-xl-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="icon-box d-flex flex-column justify-content-center align-items-center">
+                  <i class="bi bi-gem"></i>
+                  <h4>Skill Development</h4>
+                  <p>Take advantage of resources and workshops designed to enhance your skills and employability.</p>
+                </div>
+              </div><!-- End Icon Box -->
+
+              <div class="col-xl-4" data-aos="fade-up" data-aos-delay="400">
+                <div class="icon-box d-flex flex-column justify-content-center align-items-center">
+                  <i class="bi bi-inboxes"></i>
+                  <h4>Strong Partnerships</h4>
+                  <p>We connect with leading companies and universities to ensure quality experiences for all users.</p>
+                </div>
+              </div><!-- End Icon Box -->
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section><!-- /Why Us Section -->
+
+    <!-- Features Section -->
+    <section id="features" class="features section">
+
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="features-item">
+              <i class="bi bi-briefcase" style="color: #ffbb2c;"></i>
+              <h3><a href="" class="stretched-link">Internship Listings</a></h3>
+            </div>
+          </div><!-- End Feature Item -->
+
+          <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="200">
+            <div class="features-item">
+              <i class="bi bi-tools" style="color: #5578ff;"></i>
+              <h3><a href="" class="stretched-link">Skill Building</a></h3>
+            </div>
+          </div><!-- End Feature Item -->
+
+          <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="300">
+            <div class="features-item">
+              <i class="bi bi-chat-dots" style="color: #e80368;"></i>
+              <h3><a href="" class="stretched-link">Mentorship</a></h3>
+            </div>
+          </div><!-- End Feature Item -->
+
+          <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="400">
+            <div class="features-item">
+              <i class="bi bi-people" style="color: #e361ff;"></i>
+              <h3><a href="" class="stretched-link">Networking</a></h3>
+            </div>
+          </div><!-- End Feature Item -->
+
+          <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="500">
+            <div class="features-item">
+              <i class="bi bi-calendar-event" style="color: #47aeff;"></i>
+              <h3><a href="" class="stretched-link">Events</a></h3>
+            </div>
+          </div><!-- End Feature Item -->
+
+          <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="600">
+            <div class="features-item">
+              <i class="bi bi-bar-chart" style="color: #ffa76e;"></i>
+              <h3><a href="" class="stretched-link">Progress Tracking</a></h3>
+            </div>
+          </div><!-- End Feature Item -->
+
+          <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="700">
+            <div class="features-item">
+              <i class="bi bi-lightbulb" style="color: #11dbcf;"></i>
+              <h3><a href="" class="stretched-link">Innovation Challenges</a></h3>
+            </div>
+          </div><!-- End Feature Item -->
+
+          <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="800">
+            <div class="features-item">
+              <i class="bi bi-person-check" style="color: #4233ff;"></i>
+              <h3><a href="" class="stretched-link">Job Placement</a></h3>
+            </div>
+          </div><!-- End Feature Item -->
+
+        </div>
+
+      </div>
+
+    </section><!-- /Features Section -->
+
+    <!-- Internships Section -->
+        <!-- Courses Section -->
+        <section id="courses" class="courses section">
+
+          <!-- Section Title -->
+          <div class="container section-title" data-aos="fade-up">
+            <h2>Internship Opportunities</h2>
+            <p>Popular Internship Opportunities</p>
+          </div><!-- End Section Title -->
+
+          <div class="container">
+
+            <div class="row">
+
+              <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+                <div class="course-item">
+                  <img src="{% static 'website-assets/img/course-1.jpg' %}" class="img-fluid" alt="...">
+                  <div class="course-content">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                      <p class="category">Web Development</p>
+                      <p class="price">$1,500/month</p>
+                    </div>
+
+                    <h3><a href="course-details.html">Frontend Developer Internship</a></h3>
+                    <p class="description">Join our team and gain hands-on experience in frontend development. Work with the latest technologies and frameworks.</p>
+                    <a href="apply-link.html" class="btn btn-primary">Apply</a> <!-- Apply Link -->
+                  </div>
+                </div>
+              </div> <!-- End Internship Item -->
+
+              <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0" data-aos="zoom-in" data-aos-delay="200">
+                <div class="course-item">
+                  <img src="{% static 'website-assets/img/course-2.jpg' %}" class="img-fluid" alt="...">
+                  <div class="course-content">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                      <p class="category">Marketing</p>
+                      <p class="price">$1,200/month</p>
+                    </div>
+
+                    <h3><a href="course-details.html">SEO Internship</a></h3>
+                    <p class="description">Help optimize our website for search engines, analyze trends, and learn valuable marketing strategies.</p>
+                    <a href="apply-link.html" class="btn btn-primary">Apply</a> <!-- Apply Link -->
+                  </div>
+                </div>
+              </div> <!-- End Internship Item -->
+
+              <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0" data-aos="zoom-in" data-aos-delay="300">
+                <div class="course-item">
+                  <img src="{% static 'website-assets/img/course-3.jpg' %}" class="img-fluid" alt="...">
+                  <div class="course-content">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                      <p class="category">Content Creation</p>
+                      <p class="price">$1,000/month</p>
+                    </div>
+
+                    <h3><a href="course-details.html">Copywriting Internship</a></h3>
+                    <p class="description">Assist with writing compelling copy for blogs, advertisements, and more. Perfect for aspiring writers.</p>
+                    <a href="apply-link.html" class="btn btn-primary">Apply</a> <!-- Apply Link -->
+                  </div>
+                </div>
+              </div> <!-- End Internship Item -->
+
+            </div>
+
+          </div>
+
+        </section><!-- /Courses Section -->
+
+
+
+      <!-- Trainers Index Section -->
+      <section id="trainers-index" class="section trainers-index">
+
+        <div class="container">
+
+          <div class="row">
+
+            <div class="col-lg-4 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="100">
+              <div class="member">
+                <img src="{% static 'website-assets/img/trainers/trainer-1.jpg' %}" class="img-fluid" alt="">
+                <div class="member-content">
+                  <h4>Tech Innovators</h4>
+                  <span>Web Development & AI</span>
+                  <p>
+                    Leading the way in innovative web solutions and cutting-edge artificial intelligence technologies.
+                  </p>
+                  <div class="social">
+                    <a href=""><i class="bi bi-twitter-x"></i></a>
+                    <a href=""><i class="bi bi-facebook"></i></a>
+                    <a href=""><i class="bi bi-instagram"></i></a>
+                    <a href=""><i class="bi bi-linkedin"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End Team Member -->
+
+            <div class="col-lg-4 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="200">
+              <div class="member">
+                <img src="{% static 'website-assets/img/trainers/trainer-2.jpg' %}" class="img-fluid" alt="">
+                <div class="member-content">
+                  <h4>Market Masters</h4>
+                  <span>Digital Marketing</span>
+                  <p>
+                    Experts in creating data-driven digital marketing strategies to drive business growth and reach wider audiences.
+                  </p>
+                  <div class="social">
+                    <a href=""><i class="bi bi-twitter-x"></i></a>
+                    <a href=""><i class="bi bi-facebook"></i></a>
+                    <a href=""><i class="bi bi-instagram"></i></a>
+                    <a href=""><i class="bi bi-linkedin"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End Team Member -->
+
+            <div class="col-lg-4 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="300">
+              <div class="member">
+                <img src="{% static 'website-assets/img/trainers/trainer-3.jpg' %}" class="img-fluid" alt="">
+                <div class="member-content">
+                  <h4>Creative Minds</h4>
+                  <span>Content Creation</span>
+                  <p>
+                    A creative agency focused on crafting impactful content across multiple platforms, from video production to social media campaigns.
+                  </p>
+                  <div class="social">
+                    <a href=""><i class="bi bi-twitter-x"></i></a>
+                    <a href=""><i class="bi bi-facebook"></i></a>
+                    <a href=""><i class="bi bi-instagram"></i></a>
+                    <a href=""><i class="bi bi-linkedin"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div><!-- End Team Member -->
+
+          </div>
+
+        </div>
+
+      </section><!-- /Trainers Index Section -->
+
+
+  </main>
+
+  <footer id="footer" class="footer position-relative light-background">
+
+    <div class="container footer-top">
+      <div class="row gy-4">
+        <div class="col-lg-4 col-md-6 footer-about">
+          <a href="index.html" class="logo d-flex align-items-center">
+            <span class="sitename">internMe</span>
+          </a>
+          <div class="footer-contact pt-3">
+            <p>21206</p>
+            <p>Darwandale views Norton</p>
+            <p class="mt-3"><strong>Phone:</strong> <span>+263775402600</span></p>
+            <p><strong>Email:</strong> <span>contact@internme.com</span></p>
+          </div>
+          <div class="social-links d-flex mt-4">
+            <a href=""><i class="bi bi-twitter"></i></a>
+            <a href=""><i class="bi bi-facebook"></i></a>
+            <a href=""><i class="bi bi-instagram"></i></a>
+            <a href=""><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+  
+        <div class="col-lg-2 col-md-3 footer-links">
+          <h4>Useful Links</h4>
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </div>
+  
+        <div class="col-lg-2 col-md-3 footer-links">
+          <h4>Our Services</h4>
+          <ul>
+            <li><a href="#">Internships</a></li>
+            <li><a href="#">Recruitment</a></li>
+            <li><a href="#">Talent Development</a></li>
+            <li><a href="#">Employer Partnerships</a></li>
+            <li><a href="#">Career Coaching</a></li>
+          </ul>
+        </div>
+  
+        <div class="col-lg-4 col-md-12 footer-newsletter">
+          <h4>Our Newsletter</h4>
+          <p>Subscribe to our newsletter for the latest internship opportunities, career tips, and more!</p>
+          <form action="" method="post" class="php-email-form">
+            <div class="newsletter-form">
+              <input type="email" name="email" placeholder="Your Email Address" required>
+              <input type="submit" value="Subscribe">
+            </div>
+            <div class="loading">Loading</div>
+            <div class="error-message"></div>
+            <div class="sent-message">Your subscription request has been sent. Thank you!</div>
+          </form>
+        </div>
+  
+      </div>
+    </div>
+  
+    <div class="container copyright text-center mt-4">
+      <p>© <span>Copyright</span> <strong class="px-1 sitename">internMe</strong> <span>All Rights Reserved</span></p>
+      <div class="credits">
+        Designed by <a href="">EmmanuelNyikadzanzwa</a>
+      </div>
+    </div>
+  
+  </footer>
+  
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'website-assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'website-assets/vendor/php-email-form/validate.js' %}"></script>
+  <script src="{% static 'website-assets/vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'website-assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'website-assets/vendor/purecounter/purecounter_vanilla.js' %}"></script>
+  <script src="{% static 'website-assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+
+  <!-- Main JS File -->
+  <script src="{% static 'website-assets/js/main.js' %}"></script>
+
+</body>
+
+</html>

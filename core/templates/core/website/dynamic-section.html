@@ -1,0 +1,57 @@
+{% load static %}
+<div id="dynamic-section" class="section">
+    <div id="tagline-container" class="center-align">
+        <h1 id="dynamic-tagline">Welcome to Our Platform</h1>
+    </div>
+</div>
+
+<style>
+    #dynamic-section {
+        height: 90vh;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-image 1s ease-in-out;
+        background-size: cover;
+        background-position: center;
+    }
+</style>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const taglines = [
+            { text: 'Connecting students to opportunities, universities to innovation', bgImage: "{% static 'images/background_image_1.png' %}" },
+            { text: 'Bridging the gap between academia and industry', bgImage: "{% static 'images/background_image_2.png' %}" },
+            { text: 'Where students meet opportunities and universities meet partners', bgImage: "{% static 'images/background_image_3.png' %}" },
+            { text: 'Unlocking potential through connections', bgImage: "{% static 'images/background_image_4.png' %}" },
+            { text: 'Fostering collaboration, driving innovation', bgImage: "{% static 'images/background_image_5.png' %}" }
+        ];
+
+        let index = 0;
+        const section = document.getElementById('dynamic-section');
+
+        function updateBackground() {
+            section.style.backgroundImage = `url(${taglines[index].bgImage})`;
+        }
+
+        function startTyped() {
+            // Initialize Typed.js
+            new Typed('#dynamic-tagline', {
+                strings: taglines.map(tagline => tagline.text),
+                typeSpeed: 100,
+                backSpeed: 25,
+                backDelay: 2000,
+                startDelay: 100,
+                loop: true,
+                onStringTyped: function () {
+                    // Change background after each tagline is fully typed
+                    updateBackground();
+                    index = (index + 1) % taglines.length;
+                }
+            });
+        }
+
+        // Start the typed effect
+        startTyped();
+    });
+</script>

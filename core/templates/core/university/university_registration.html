@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="registration-form">
+        <h2 class="text-center mb-4">University Registration</h2>
+
+        <form method="POST" class="form" action="{% url 'university_registration' %}">
+            {% csrf_token %}
+            
+            <!-- Display any form validation errors -->
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    <ul>
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            <!-- University Name -->
+            <div class="form-group">
+                <label for="id_name">University Name</label>
+                {{ form.name }}
+            </div>
+
+            <!-- University Address -->
+            <div class="form-group">
+                <label for="id_address">University Address</label>
+                {{ form.address }}
+            </div>
+
+            <!-- University Contact Email -->
+            <div class="form-group">
+                <label for="id_contact_email">Contact Email</label>
+                {{ form.contact_email }}
+            </div>
+
+            <!-- Admin Username -->
+            <div class="form-group">
+                <label for="id_admin_username">Admin Username</label>
+                {{ form.admin_username }}
+            </div>
+
+            <!-- Admin Email -->
+            <div class="form-group">
+                <label for="id_admin_email">Admin Email</label>
+                {{ form.admin_email }}
+            </div>
+
+            <!-- Admin Password -->
+            <div class="form-group">
+                <label for="id_admin_password">Admin Password</label>
+                {{ form.admin_password }}
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-primary">Register University</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

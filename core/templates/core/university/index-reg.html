@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'auth/reg-styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="title">Instutution Registration</div>
+        <form method="POST" class="form" action="{% url 'university_registration' %}">
+            {% csrf_token %}
+            <div class="user-details">
+                <div class="input-box">
+                    <span class="details">Instutution Name</span>
+                    <input type="text" name="name" placeholder="Instutution Name" required value="{{ form.name.value|default:'' }}">
+                </div>
+                <div class="input-box">
+                    <span class="details">Instutution Address</span>
+                    <input type="text" name="address" placeholder="Instutution Address" required value="{{ form.address.value|default:'' }}">
+                </div>
+                <div class="input-box">
+                    <span class="details">Contact Email</span>
+                    <input type="email" name="contact_email" placeholder="Enteremail" required value="{{ form.contact_email.value|default:'' }}">
+                </div>
+                <div class="input-box">
+                    <span class="details">Admin Username</span>
+                    <input type="text" name="admin_username" placeholder="Instutution Name" required value="{{ form.admin_username.value|default:'' }}">
+                </div>
+                <div class="input-box">
+                    <span class="details">Admin Email</span>
+                    <input type="email" name="admin_email" placeholder="Enter your email" required value="{{ form.admin_email.value|default:'' }}">
+                </div>
+                <div class="input-box">
+                    <span class="details">Admin Password</span>
+                    <input type="password" name="admin_password" placeholder="Confirm Password" required value="{{ form.admin_password.value|default:'' }}">
+                </div>   
+            </div>
+            <div class="button">
+                    <input type="submit" value="Register">
+                    <a href="{% url 'login' %}">Already have an account Login</a>
+                </div>
+        </form>
+    </div>
+</body>
+</html>

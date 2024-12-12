@@ -1,0 +1,130 @@
+{% extends 'core/student/index.html' %}
+
+
+{% block content %}
+
+<div class="pagetitle">
+  <h1>Dashboard</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+      <li class="breadcrumb-item active">Student Dashboard</li>
+    </ol>
+  </nav>
+</div><!-- End Page Title -->
+<section class="section dashboard">
+  <div class="row">
+    <!-- Vacancies -->
+    <!-- Available Vacancies -->
+          <div class="col-12">
+            <div class="card recent-sales overflow-auto">
+
+              <div class="filter">
+                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                  <li class="dropdown-header text-start">
+                    <h6>Filter</h6>
+                  </li>
+
+                  <li><a class="dropdown-item" href="#">All Vacancies</a></li>
+                  <li><a class="dropdown-item" href="#">Open Vacancies</a></li>
+                  <li><a class="dropdown-item" href="#">Closed Vacancies</a></li>
+                </ul>
+              </div>
+
+              <div class="card-body">
+                <h5 class="card-title">Available Vacancies</h5>
+
+                <table class="table table-borderless datatable">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Vacancy Title</th>
+                      <th scope="col">Company</th>
+                      <th scope="col">Description</th>
+                      <th scope="col">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for vacancy in available_vacancies %}
+                    <tr>
+                      <th scope="row">{{ forloop.counter }}</th>
+                      <td>{{ vacancy.title }}</td>
+                      <td>{{ vacancy.company.name }}</td>
+                      <td>{{ vacancy.description|truncatechars:100 }}</td>
+                      <td>
+                        <a href="{% url 'apply_for_vacancy' vacancy.id %}" class="btn btn-primary">Apply</a>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+
+              </div>
+
+            </div>
+          </div>
+          <!-- End Available Vacancies -->
+           <!-- Student Applications -->
+            <div class="col-12">
+              <div class="card recent-sales overflow-auto">
+
+                <div class="filter">
+                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                    <li class="dropdown-header text-start">
+                      <h6>Filter</h6>
+                    </li>
+
+                    <li><a class="dropdown-item" href="#">All Applications</a></li>
+                    <li><a class="dropdown-item" href="#">Approved</a></li>
+                    <li><a class="dropdown-item" href="#">Pending</a></li>
+                  </ul>
+                </div>
+
+                <div class="card-body">
+                  <h5 class="card-title">Your Applications</h5>
+
+                  <table class="table table-borderless datatable">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Vacancy Title</th>
+                        <th scope="col">Company</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Applied Date</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for app in applications %}
+                      <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ app.vacancy.title }}</td>
+                        <td>{{ app.vacancy.company.name }}</td>
+                        <td>
+                          {% if app.status == 'Approved' %}
+                            <span class="badge bg-success">Approved</span>
+                          {% elif app.status == 'Pending' %}
+                            <span class="badge bg-warning">Pending</span>
+                          {% elif app.status == 'Rejected' %}
+                            <span class="badge bg-danger">Rejected</span>
+                          {% else %}
+                            <span class="badge bg-secondary">{{ app.status }}</span>
+                          {% endif %}
+                        </td>
+                        <td>{{ app.applied_at|date:"M d, Y" }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+
+                </div>
+
+              </div>
+            </div>
+            <!-- End Student Applications -->
+
+
+  </div>
+</section>
+ {% endblock %}

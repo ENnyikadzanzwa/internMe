@@ -1,0 +1,148 @@
+{% extends 'core/company/main.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    .search-filter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search-filter input[type="text"] {
+    width: 70%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.search-filter button {
+    padding: 10px 15px;
+    border: none;
+    background-color: #007BFF;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.search-filter button:hover {
+    background-color: #0056b3;
+}
+
+
+.filter-icons {
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 12px;
+}
+
+.filter-icons a {
+    margin: 0 5px;
+    text-decoration: none;
+    color: #007BFF;
+}
+
+.filter-icons a:hover {
+    text-decoration: underline;
+}
+
+</style>
+<main>
+    <div class="recent-applications">
+        <h2>All Applications for Your Company</h2>
+        <form method="GET" action="">
+            {% csrf_token %}
+            <div class="search-filter">
+                <input type="text" name="search" placeholder="Search by Applicant Name, ID, or University" value="{{ request.GET.search }}">
+                <button type="submit">Search</button>
+            </div>
+        </form>
+
+        {% if applications %}
+        <form method="POST" action="">
+            {% csrf_token %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            Applicant ID
+                            <div class="filter-icons">
+                                <a href="?sort_by=registration_number&order=asc">&#8593;</a>
+                                <a href="?sort_by=registration_number&order=desc">&#8595;</a>
+                            </div>
+                        </th>
+                        <th>
+                            Applicant Name
+                            <div class="filter-icons">
+                                <a href="?sort_by=student__user__first_name&order=asc">&#8593;</a>
+                                <a href="?sort_by=student__user__first_name&order=desc">&#8595;</a>
+                            </div>
+                        </th>
+                        <th>
+                            University
+                            <div class="filter-icons">
+                                <a href="?sort_by=student__university__name&order=asc">&#8593;</a>
+                                <a href="?sort_by=student__university__name&order=desc">&#8595;</a>
+                            </div>
+                        </th>
+                        <th>
+                            Date Applied
+                            <div class="filter-icons">
+                                <a href="?sort_by=applied_at&order=asc">&#8593;</a>
+                                <a href="?sort_by=applied_at&order=desc">&#8595;</a>
+                            </div>
+                        </th>
+                        <th>Resume</th>
+                        <th>Cover Letter</th>
+                        <th>
+                            Application Status
+                            <div class="filter-icons">
+                                <a href="?sort_by=status&order=asc">&#8593;</a>
+                                <a href="?sort_by=status&order=desc">&#8595;</a>
+                            </div>
+                        </th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for application in applications %}
+                    <tr>
+                        <td>{{ application.student.registration_number }}</td>
+                        <td>{{ application.student.user.first_name }} {{ application.student.user.last_name }}</td>
+                        <td>{{ application.student.university.name }}</td>
+                        <td>{{ application.applied_at|date:"Y-m-d" }}</td>
+                        <td>
+                            <a href="{{ application.student.resume.file.url }}" target="_blank">View Resume</a>
+                        </td>
+                        <td>
+                            <a href="{{ application.student.coverletter.file.url }}" target="_blank">View Cover Letter</a>
+                        </td>
+                        <td>
+                            <select name="status_{{ application.id }}">
+                                {% for choice, display in application.STATUS_CHOICES %}
+                                <option value="{{ choice }}" {% if application.status == choice %}selected{% endif %}>
+                                    {{ display }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </td>
+                        <td>
+                            <button type="submit" name="application_id" value="{{ application.id }}">
+                                Update Status
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </form>
+        {% else %}
+        <p>No applications found for your company's vacancies.</p>
+        {% endif %}
+    </div>
+</main>
+<div class="right">
+    {% include 'core/company/header.html' %}
+</div>
+{% endblock %}

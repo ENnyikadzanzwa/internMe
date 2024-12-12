@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Page</title>
+    <!-- Add Materialize CSS CDN link here -->
+     {% load static %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+    <!-- Custom styles if needed -->
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <!-- link boxicons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+</head>
+<body>
+
+    <!-- Include Navbar -->
+    {% include 'core/website/navbar.html' %}
+
+    <!-- Include Dynamic Tagline Section -->
+    {% include 'core/website/dynamic-section.html' %}
+
+    <!-- Include Getting Started Cards Section -->
+    {% include 'core/website/card.html' %}
+
+    <!-- Include Features Section -->
+    {% include 'core/website/features.html' %}
+
+    <!-- Include Footer -->
+    {% include 'core/website/footer.html' %}
+
+    <!-- Add Materialize JS CDN link here -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!-- Custom scripts if needed -->
+    <script src="{% static 'js/scripts.js' %}"></script>
+
+</body>
+</html>

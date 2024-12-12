@@ -1,0 +1,48 @@
+{% extends 'core/university/index.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Vertical Form</h5>
+
+        <h2>Add Student</h2>
+
+        <!-- Display success message if any -->
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <!-- Vertical Form -->
+        <form method="post" class="row g-3">
+        {% csrf_token %}
+
+        <div class="col-12">
+            <label for="id_registration_number" class="form-label">Registration Number</label>
+            <input type="text" name="registration_number" class="form-control" id="id_registration_number" value="{{ form.registration_number.value }}">
+        </div>
+
+        <div class="col-12">
+            <label for="id_program_of_study" class="form-label">Program of Study</label>
+            <input type="text" name="program_of_study" class="form-control" id="id_program_of_study" value="{{ form.program_of_study.value }}">
+        </div>
+
+        <div class="col-12">
+            <label for="id_year_of_study" class="form-label">Year of Study</label>
+            <input type="number" name="year_of_study" class="form-control" id="id_year_of_study" value="{{ form.year_of_study.value }}">
+        </div>
+
+        <div class="text-center">
+            <a href="{%  url 'bulk_upload_students' %}"> Bulk Upload</a>
+            <button type="submit" class="btn btn-primary">Add Student</button>  
+            <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
+        </form>
+        <!-- End of Vertical Form -->
+        </div>
+     </div>
+
+{% endblock %}

@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>internME|Company registration</title>
+    <link rel="stylesheet" href="{% static 'auth/reg-styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="title">Company Registration</div>
+        <form method="POST" class="form" action="{% url 'company_registration' %}">
+            {% csrf_token %}
+            <div class="user-details">
+                <div class="input-box">
+                    <span class="details">Company Name</span>
+                    <input type="text" name="name" placeholder="Company Name" required value="{{ form.name.value|default:'' }}">
+                </div>
+                <div class="input-box">
+                    <span class="details">Address</span>
+                    <input type="text" name="address" placeholder="Instutution Address" required value="{{ form.address.value|default:'' }}">
+                </div>
+                <div class="input-box">
+                    <span class="details">Contact Email</span>
+                    <input type="email" name="contact_email" placeholder="Enteremail" required value="{{ form.contact_email.value|default:'' }}">
+                </div>
+                <div class="input-box">
+                    <span class="details">Industry</span>
+                    <input type="text" name="industry" placeholder="Industry" required value="{{ form.industry.value|default:'' }}">
+                </div>
+                <div class="input-box">
+                  <span class="details">Rep Username</span>
+                  <input type="text" name="rep_username" placeholder="Industry" required value="{{ form.rep_username.value|default:'' }}">
+              </div>
+                <div class="input-box">
+                    <span class="details">Rep Email</span>
+                    <input type="email" name="rep_email" placeholder="Enter your email" required value="{{ form.rep_email.value|default:'' }}">
+                </div>
+                <div class="input-box">
+                    <span class="details">Rep Password</span>
+                    <input type="password" name="rep_password" placeholder="Confirm Password" required value="{{ form.rep_password.value|default:'' }}">
+                </div>   
+            </div>
+            <div class="button">
+                    <input type="submit" value="Register Company">
+                    <a href="{% url 'login' %}">Already have an account Login</a>
+                </div>
+        </form>
+    </div>
+</body>
+</html>
+
+
