@@ -1,1 +1,1 @@
-web: gunicorn work_learning_platform.wsgi --logfile -
+web: gunicorn 'work_learning_platform.wsgi'
