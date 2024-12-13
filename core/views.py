@@ -14,7 +14,38 @@ from django.utils.timezone import now
 from django.db.models import Q
 
 
-#login view
+# #login view
+# def login_view(request):
+#     if request.method == 'POST':
+#         form = LoginForm(request.POST)
+#         if form.is_valid():
+#             username = form.cleaned_data['username']
+#             password = form.cleaned_data['password']
+#             user = authenticate(request, username=username, password=password)
+#             if user is not None:
+#                 login(request, user)
+#                 # Add success message after successful login
+#                 messages.success(request, "Login successful! Welcome back.")
+#                 # Redirect to the appropriate dashboard
+#                 if user.extendeduser.role == 'System Admin':
+#                     return redirect('system_admin_dashboard')
+#                 elif user.extendeduser.role == 'Company Representative':
+#                     return redirect('company_dashboard')
+#                 elif user.extendeduser.role == 'University Admin':
+#                     return redirect('university_dashboard')
+#                 elif user.extendeduser.role == 'Student':
+#                     return redirect('student_dashboard')
+#                 else:
+#                     return redirect('welcome_page')
+#             else:
+#                 # Authentication failed, add error message
+#                 messages.error(request, "Invalid username or password.")
+#                 return render(request, 'core/auth/index.html', {'form': form})
+#     else:
+#         form = LoginForm()
+#     return render(request, 'core/auth/index.html', {'form': form})
+
+
 def login_view(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -24,27 +55,30 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                # Add success message after successful login
+                # Add success message
                 messages.success(request, "Login successful! Welcome back.")
-                # Redirect to the appropriate dashboard
-                if user.extendeduser.role == 'System Admin':
-                    return redirect('system_admin_dashboard')
-                elif user.extendeduser.role == 'Company Representative':
-                    return redirect('company_dashboard')
-                elif user.extendeduser.role == 'University Admin':
-                    return redirect('university_dashboard')
-                elif user.extendeduser.role == 'Student':
-                    return redirect('student_dashboard')
-                else:
-                    return redirect('welcome_page')
+                # Redirect after the page reloads
+                return render(request, 'core/auth/index.html', {'form': form, 'redirect_url': get_redirect_url(user)})
             else:
-                # Authentication failed, add error message
+                # Authentication failed
                 messages.error(request, "Invalid username or password.")
                 return render(request, 'core/auth/index.html', {'form': form})
     else:
         form = LoginForm()
     return render(request, 'core/auth/index.html', {'form': form})
 
+def get_redirect_url(user):
+    # Logic to decide which dashboard to redirect to after login
+    if user.extendeduser.role == 'System Admin':
+        return 'system_admin_dashboard'
+    elif user.extendeduser.role == 'Company Representative':
+        return 'company_dashboard'
+    elif user.extendeduser.role == 'University Admin':
+        return 'university_dashboard'
+    elif user.extendeduser.role == 'Student':
+        return 'student_dashboard'
+    else:
+        return 'welcome_page'
 
 
 def user_logout(request):
