@@ -13,6 +13,7 @@ import pandas as pd
 from django.utils.timezone import now
 from django.db.models import Q
 
+
 #login view
 def login_view(request):
     if request.method == 'POST':
@@ -23,7 +24,9 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                # Redirect to the dashboard based on user role
+                # Add success message after successful login
+                messages.success(request, "Login successful! Welcome back.")
+                # Redirect to the appropriate dashboard
                 if user.extendeduser.role == 'System Admin':
                     return redirect('system_admin_dashboard')
                 elif user.extendeduser.role == 'Company Representative':
@@ -41,6 +44,7 @@ def login_view(request):
     else:
         form = LoginForm()
     return render(request, 'core/auth/index.html', {'form': form})
+
 
 
 def user_logout(request):
