@@ -78,12 +78,19 @@ WSGI_APPLICATION = 'work_learning_platform.wsgi.application'
 
 import dj_database_url
 
-DATABASES = {
-    'default': dj_database_url.config(
-        default='postgresql://postgres:WKfFuiJDHjCRnrqBaKsiUbGBaiJWovQj@junction.proxy.rlwy.net:39242/railway'
-    )
-}
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default='postgresql://postgres:WKfFuiJDHjCRnrqBaKsiUbGBaiJWovQj@junction.proxy.rlwy.net:39242/railway'
+#     )
+# }
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR /'db.sqlite3',
+        
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

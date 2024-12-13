@@ -21,6 +21,9 @@ class ExtendedUser(models.Model):
 # University model
 class University(models.Model):
     name = models.CharField(max_length=255)
+    mission = models.TextField(blank=True, null=True)
+    vision = models.TextField(blank=True, null=True)
+    about = models.TextField(blank=True, null=True)
     address = models.TextField()
     contact_email = models.EmailField()
     university_admin = models.ForeignKey(User, on_delete=models.CASCADE, related_name='university_admin')
@@ -31,6 +34,8 @@ class University(models.Model):
 # Student model
 class Student(models.Model):
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255, blank=True, null=True)
+    last_name = models.CharField(max_length=255, blank=True, null=True)
     registration_number = models.CharField(max_length=50, unique=True)
     university = models.ForeignKey('University', on_delete=models.CASCADE)
     program_of_study = models.CharField(max_length=255)
@@ -67,6 +72,9 @@ class CoverLetter(models.Model):
 # Company model
 class Company(models.Model):
     name = models.CharField(max_length=255)
+    mission = models.TextField(blank=True, null=True)
+    vision = models.TextField(blank=True, null=True)
+    about = models.TextField(blank=True, null=True)
     address = models.TextField()
     contact_email = models.EmailField()
     company_rep = models.ForeignKey(User, on_delete=models.CASCADE, related_name='company_rep')

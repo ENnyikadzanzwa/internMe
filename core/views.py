@@ -510,4 +510,9 @@ def get_started_page(request):
     return render(request,'core/website/courses.html')
 def features_page(request):
     return render(request,'core/website/feature-page.html')
-    
+def about_page(request):
+    return render(request,'core/website/about.html')
+def pricing_page(request):
+    return render(request,'core/website/pricing.html')
+def contact_page(request):
+    return render(request,'core/website/contact.html')    
