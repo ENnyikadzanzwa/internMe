@@ -328,11 +328,15 @@ form{
                         position: 'top-right',
                         showConfirmButton: false,
                         timer: 3000,
+                    }).then(() => {
+                        // Redirect after success message
+                        window.location.href = "{% url redirect_url %}";
                     });
                 {% endif %}
             {% endfor %}
         {% endif %}
     </script>
+    
     
     <script src="{% static 'auth/script.js' %}"></script>
 </body>
