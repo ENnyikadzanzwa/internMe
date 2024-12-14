@@ -56,16 +56,25 @@ def user_logout(request):
     logout(request)
     return redirect('login')  # Redirect to login page after logging out
 
-#registration views
+
+
 def company_registration(request):
     if request.method == 'POST':
         form = CompanyRegistrationForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('company_dashboard')  # Redirect to the company dashboard after registration
+            try:
+                form.save()
+                messages.success(request, "Company registered successfully!")
+                return redirect('company_dashboard')
+            except IntegrityError as e:
+                messages.error(request, "Integrity error occurred: " + str(e))
+        else:
+            messages.error(request, "Please correct the errors below.")
     else:
         form = CompanyRegistrationForm()
+    
     return render(request, 'core/company/company_registration.html', {'form': form})
+
 
 def student_registration(request):
     if request.method == 'POST':

@@ -60,6 +60,12 @@ form .user-details .input-box{
     border-bottom-width: 2px;
     transition: all 0.3s ease;
 }
+.error-message {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
 .user-details .input-box input:focus,
 .user-details .input-box input:valid{
     border-color: #5fcf80;

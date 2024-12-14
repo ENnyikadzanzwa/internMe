@@ -1,6 +1,7 @@
 from django import forms
 from .models import *
 from django.contrib.auth.forms import PasswordChangeForm
+from django.core.exceptions import ValidationError
 
 class UniversityRegistrationForm(forms.ModelForm):
     class Meta:
@@ -108,33 +109,78 @@ class StudentRegistrationForm(forms.Form):
         student.user = user
         student.save()
 
+
+
+
+
+
 class CompanyRegistrationForm(forms.ModelForm):
+    # Add fields for the representative's details
+    rep_username = forms.CharField(
+        max_length=150, 
+        required=True,
+        widget=forms.TextInput(attrs={'placeholder': 'Representative Username'}),
+    )
+    rep_email = forms.EmailField(
+        required=True,
+        widget=forms.EmailInput(attrs={'placeholder': 'Representative Email'}),
+    )
+    rep_password = forms.CharField(
+        required=True,
+        widget=forms.PasswordInput(attrs={'placeholder': 'Representative Password'}),
+    )
+
     class Meta:
         model = Company
-        fields = ['name', 'address', 'contact_email', 'industry']
+        fields = ['name', 'address', 'contact_email', 'industry']  # Fields from the Company model
+        widgets = {
+            'name': forms.TextInput(attrs={'placeholder': 'Company Name'}),
+            'address': forms.TextInput(attrs={'placeholder': 'Institution Address'}),
+            'contact_email': forms.EmailInput(attrs={'placeholder': 'Contact Email'}),
+            'industry': forms.TextInput(attrs={'placeholder': 'Industry'}),
+        }
 
-    rep_username = forms.CharField(max_length=150, required=True)
-    rep_email = forms.EmailField(required=True)
-    rep_password = forms.CharField(widget=forms.PasswordInput, required=True)
+    def clean_rep_username(self):
+        username = self.cleaned_data['rep_username']
+        if User.objects.filter(username=username).exists():
+            raise ValidationError("A user with this username already exists.")
+        return username
+
+    def clean_rep_email(self):
+        email = self.cleaned_data['rep_email']
+        if User.objects.filter(email=email).exists():
+            raise ValidationError("A user with this email already exists.")
+        return email
 
     def save(self, commit=True):
+        # Save the company and its representative user
         company = super().save(commit=False)
+        rep_username = self.cleaned_data['rep_username']
+        rep_email = self.cleaned_data['rep_email']
+        rep_password = self.cleaned_data['rep_password']
+
         if commit:
+            # Create the representative user
             user = User.objects.create_user(
-                username=self.cleaned_data['rep_username'],
-                email=self.cleaned_data['rep_email'],
-                password=self.cleaned_data['rep_password']
+                username=rep_username,
+                email=rep_email,
+                password=rep_password,
             )
-            
-            # Create ExtendedUser instance
+
+            # Assign additional details for the representative if required (e.g., roles)
+            # Assuming you have an ExtendedUser model
+            from core.models import ExtendedUser  # Replace with your app path
             ExtendedUser.objects.create(
                 user=user,
-                role='Company Representative'
+                role='Company Representative'  # Role specific to your app logic
             )
-            
+
+            # Link the representative user to the company
             company.company_rep = user
             company.save()
+
         return company
+
 class LoginForm(forms.Form):
     username = forms.CharField(
         max_length=150,

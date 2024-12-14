@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>internME|Company registration</title>
+    <title>internME | Company Registration</title>
     <link rel="stylesheet" href="{% static 'auth/reg-styles.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert Library -->
 </head>
 <body>
     <div class="container">
@@ -16,39 +17,87 @@
                 <div class="input-box">
                     <span class="details">Company Name</span>
                     <input type="text" name="name" placeholder="Company Name" required value="{{ form.name.value|default:'' }}">
+                    {% if form.name.errors %}
+                        <div class="error">{{ form.name.errors.0 }}</div>
+                    {% endif %}
                 </div>
                 <div class="input-box">
                     <span class="details">Address</span>
-                    <input type="text" name="address" placeholder="Instutution Address" required value="{{ form.address.value|default:'' }}">
+                    <input type="text" name="address" placeholder="Institution Address" required value="{{ form.address.value|default:'' }}">
+                    {% if form.address.errors %}
+                        <div class="error">{{ form.address.errors.0 }}</div>
+                    {% endif %}
                 </div>
                 <div class="input-box">
                     <span class="details">Contact Email</span>
-                    <input type="email" name="contact_email" placeholder="Enteremail" required value="{{ form.contact_email.value|default:'' }}">
+                    <input type="email" name="contact_email" placeholder="Enter email" required value="{{ form.contact_email.value|default:'' }}">
+                    {% if form.contact_email.errors %}
+                        <div class="error">{{ form.contact_email.errors.0 }}</div>
+                    {% endif %}
                 </div>
                 <div class="input-box">
                     <span class="details">Industry</span>
                     <input type="text" name="industry" placeholder="Industry" required value="{{ form.industry.value|default:'' }}">
+                    {% if form.industry.errors %}
+                        <div class="error">{{ form.industry.errors.0 }}</div>
+                    {% endif %}
                 </div>
                 <div class="input-box">
-                  <span class="details">Rep Username</span>
-                  <input type="text" name="rep_username" placeholder="Industry" required value="{{ form.rep_username.value|default:'' }}">
-              </div>
+                    <span class="details">Rep Username</span>
+                    <input type="text" name="rep_username" placeholder="Representative Username" required value="{{ form.rep_username.value|default:'' }}">
+                    {% if form.rep_username.errors %}
+                        <div class="error">{{ form.rep_username.errors.0 }}</div>
+                    {% endif %}
+                </div>
                 <div class="input-box">
                     <span class="details">Rep Email</span>
-                    <input type="email" name="rep_email" placeholder="Enter your email" required value="{{ form.rep_email.value|default:'' }}">
+                    <input type="email" name="rep_email" placeholder="Representative Email" required value="{{ form.rep_email.value|default:'' }}">
+                    {% if form.rep_email.errors %}
+                        <div class="error">{{ form.rep_email.errors.0 }}</div>
+                    {% endif %}
                 </div>
                 <div class="input-box">
                     <span class="details">Rep Password</span>
-                    <input type="password" name="rep_password" placeholder="Confirm Password" required value="{{ form.rep_password.value|default:'' }}">
+                    <input type="password" name="rep_password" placeholder="Representative Password" required value="{{ form.rep_password.value|default:'' }}">
+                    {% if form.rep_password.errors %}
+                        <div class="error">{{ form.rep_password.errors.0 }}</div>
+                    {% endif %}
                 </div>   
             </div>
             <div class="button">
-                    <input type="submit" value="Register Company">
-                    <a href="{% url 'login' %}">Already have an account Login</a>
-                </div>
+                <input type="submit" value="Register Company">
+                <a href="{% url 'login' %}">Already have an account? Login</a>
+            </div>
         </form>
     </div>
+
+    <!-- SweetAlert Script -->
+    <script>
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'success' %}
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: '{{ message }}',
+                        position: 'top',
+                        showConfirmButton: false,
+                        timer: 3000,
+                    }).then(() => {
+                        window.location.href = "{% url 'company_dashboard' %}";
+                    });
+                {% elif message.tags == 'error' %}
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: '{{ message }}',
+                        position: 'top',
+                        showConfirmButton: false,
+                        timer: 3000,
+                    });
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </script>
 </body>
 </html>
-
-
