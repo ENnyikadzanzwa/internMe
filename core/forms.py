@@ -7,17 +7,32 @@ class UniversityRegistrationForm(forms.ModelForm):
         model = University
         fields = ['name', 'address', 'contact_email']
     
-    # Additional admin fields
     admin_username = forms.CharField(max_length=150, required=True)
     admin_email = forms.EmailField(required=True)
     admin_password = forms.CharField(widget=forms.PasswordInput, required=True)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        
-        # Automatically add the 'form-control' class to all form fields
         for field in self.fields.values():
             field.widget.attrs['class'] = 'form-control'
+
+    def clean_name(self):
+        name = self.cleaned_data.get('name')
+        if University.objects.filter(name=name).exists():
+            raise forms.ValidationError("An institution with this name already exists.")
+        return name
+
+    def clean_contact_email(self):
+        contact_email = self.cleaned_data.get('contact_email')
+        if University.objects.filter(contact_email=contact_email).exists():
+            raise forms.ValidationError("This contact email is already in use.")
+        return contact_email
+
+    def clean_admin_email(self):
+        admin_email = self.cleaned_data.get('admin_email')
+        if User.objects.filter(email=admin_email).exists():
+            raise forms.ValidationError("This admin email is already registered.")
+        return admin_email
 
     def save(self, commit=True):
         university = super().save(commit=False)
@@ -33,6 +48,7 @@ class UniversityRegistrationForm(forms.ModelForm):
             university.university_admin = user.user
             university.save()
         return university
+
 class StudentForm(forms.ModelForm):
     class Meta:
         model = Student

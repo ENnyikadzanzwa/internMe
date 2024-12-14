@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 import pandas as pd
 from django.utils.timezone import now
 from django.db.models import Q
+from django.db import IntegrityError
 
 
 
@@ -105,20 +106,29 @@ def upload_students(request):
 
 
 
+
+
 def university_registration(request):
     if request.method == 'POST':
         form = UniversityRegistrationForm(request.POST)
         if form.is_valid():
-            form.save()
-            # Add a success message
-            messages.success(request, "Institution registered successfully! Redirecting to the dashboard...")
-            return redirect('university_registration')  
+            try:
+                form.save()  # Attempt to save the form
+                messages.success(request, "Institution registered successfully! Redirecting to the dashboard...")
+                return redirect('university_registration')  # Redirect to reload the page with the message
+            except IntegrityError as e:
+                # Handle integrity errors (e.g., duplicate entries)
+                if 'unique constraint' in str(e).lower():
+                    messages.error(request, "Institution with this name or email already exists. Please use different details.")
+                else:
+                    messages.error(request, "An error occurred during registration. Please try again.")
         else:
-            # Add an error message if the form is invalid
+            # Handle general form validation errors
             messages.error(request, "Failed to register institution. Please correct the errors and try again.")
     else:
         form = UniversityRegistrationForm()
     return render(request, 'core/university/index-reg.html', {'form': form})
+
 
 
 #dashboards  and asociated logic
