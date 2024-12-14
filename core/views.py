@@ -405,7 +405,17 @@ def bulk_upload_students(request):
             return redirect('bulk_upload_students')
 
     return render(request, 'core/university/bulk_upload_students.html')
+def student_list(request):
+    # Fetch all students from the database
+    students = Student.objects.all()
+    return render(request, 'core/university/student_list.html', {'students': students})
 
+
+
+def view_enrolled_students(request):
+    # Logic to filter and display only enrolled students
+    enrolled_students = Student.objects.filter(status='Enrolled')
+    return render(request, 'core/university/student_list.html', {'students': enrolled_students})
 
 #student dashboard
 def student_dashboard(request):

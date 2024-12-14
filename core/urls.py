@@ -38,6 +38,9 @@ urlpatterns = [
     path('add_student/', views.add_student, name='add_student'),
     path('student-dashboard/', views.student_dashboard, name='student_dashboard'),
     path('bulk_upload_students/', views.bulk_upload_students, name='bulk_upload_students'),
+    path('instutution/students/', views.student_list, name='student_list'),
+    # URL for viewing enrolled students
+    path('students/enrolled/', views.view_enrolled_students, name='view_enrolled_students'),
     
     #student dashboard urls
     path('apply/<int:vacancy_id>/', views.apply_for_vacancy, name='apply_for_vacancy'),
