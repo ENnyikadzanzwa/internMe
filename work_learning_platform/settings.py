@@ -28,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 CSRF_TRUSTED_ORIGINS = [
-    'internmewrl.up.railway.app',  #  Railway app domain
+    'https://internmewrl.up.railway.app',  #  Railway app domain
           
 ]
 
