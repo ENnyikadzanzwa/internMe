@@ -288,14 +288,27 @@ def university_dashboard(request):
     if not request.user.is_authenticated or request.user.extendeduser.role != 'University Admin':
         return redirect('login')  # Ensure only university admins can access this view
 
-    
-    university = University.objects.get(university_admin=request.user)
-    students = university.student_set.all()  # Assuming one-to-many relation between university and students
+    # Get the university associated with the authenticated admin
+    try:
+        university = University.objects.get(university_admin=request.user)
+    except University.DoesNotExist:
+        return redirect('login')  # Redirect if no university is associated with the user
+
+    # Retrieve all students belonging to the university
+    students = Student.objects.filter(university=university)
+
+    # Calculate total students, enrolled students, and students due for attachment
+    total_students = students.count()
+    enrolled_students = students.filter(year_of_study__gt=0).count()  # Assuming students with year_of_study > 0 are enrolled
+    students_due_for_attachment = students.filter(year_of_study__gte=3).count()  # Assuming students in 3rd year or higher are due for attachment
 
     return render(request, 'core/university/main.html', {
         'university': university,
-        'students': students
+        'total_students': total_students,
+        'enrolled_students': enrolled_students,
+        'students_due_for_attachment': students_due_for_attachment,
     })
+
 @login_required
 def add_student(request):
     # Check if the user is a University Admin
