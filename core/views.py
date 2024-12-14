@@ -65,7 +65,7 @@ def company_registration(request):
             try:
                 form.save()
                 messages.success(request, "Company registered successfully!")
-                return redirect('company_dashboard')
+                return redirect('company_registration')
             except IntegrityError as e:
                 messages.error(request, "Integrity error occurred: " + str(e))
         else:
