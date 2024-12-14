@@ -14,36 +14,6 @@ from django.utils.timezone import now
 from django.db.models import Q
 
 
-# #login view
-# def login_view(request):
-#     if request.method == 'POST':
-#         form = LoginForm(request.POST)
-#         if form.is_valid():
-#             username = form.cleaned_data['username']
-#             password = form.cleaned_data['password']
-#             user = authenticate(request, username=username, password=password)
-#             if user is not None:
-#                 login(request, user)
-#                 # Add success message after successful login
-#                 messages.success(request, "Login successful! Welcome back.")
-#                 # Redirect to the appropriate dashboard
-#                 if user.extendeduser.role == 'System Admin':
-#                     return redirect('system_admin_dashboard')
-#                 elif user.extendeduser.role == 'Company Representative':
-#                     return redirect('company_dashboard')
-#                 elif user.extendeduser.role == 'University Admin':
-#                     return redirect('university_dashboard')
-#                 elif user.extendeduser.role == 'Student':
-#                     return redirect('student_dashboard')
-#                 else:
-#                     return redirect('welcome_page')
-#             else:
-#                 # Authentication failed, add error message
-#                 messages.error(request, "Invalid username or password.")
-#                 return render(request, 'core/auth/index.html', {'form': form})
-#     else:
-#         form = LoginForm()
-#     return render(request, 'core/auth/index.html', {'form': form})
 
 
 def login_view(request):
@@ -133,15 +103,23 @@ def upload_students(request):
         form = StudentUploadForm()
     return render(request, 'core/student/upload_students.html', {'form': form})
 
+
+
 def university_registration(request):
     if request.method == 'POST':
         form = UniversityRegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('university_dashboard')  # Redirect after successful registration
+            # Add a success message
+            messages.success(request, "Institution registered successfully! Redirecting to the dashboard...")
+            return redirect('university_registration')  
+        else:
+            # Add an error message if the form is invalid
+            messages.error(request, "Failed to register institution. Please correct the errors and try again.")
     else:
         form = UniversityRegistrationForm()
     return render(request, 'core/university/index-reg.html', {'form': form})
+
 
 #dashboards  and asociated logic
 #system adminstrators
