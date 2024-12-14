@@ -13,7 +13,7 @@ import pandas as pd
 from django.utils.timezone import now
 from django.db.models import Q
 from django.db import IntegrityError
-
+from datetime import datetime, timedelta
 
 
 
@@ -283,31 +283,43 @@ def all_applications(request):
     return render(request, 'core/company/all_applications.html', {'applications': applications, 'company': company})
 
 
-#university
+
+
 def university_dashboard(request):
     if not request.user.is_authenticated or request.user.extendeduser.role != 'University Admin':
-        return redirect('login')  # Ensure only university admins can access this view
+        return redirect('login')
 
-    # Get the university associated with the authenticated admin
     try:
         university = University.objects.get(university_admin=request.user)
     except University.DoesNotExist:
-        return redirect('login')  # Redirect if no university is associated with the user
+        return redirect('login')
 
-    # Retrieve all students belonging to the university
     students = Student.objects.filter(university=university)
 
-    # Calculate total students, enrolled students, and students due for attachment
     total_students = students.count()
-    enrolled_students = students.filter(year_of_study__gt=0).count()  # Assuming students with year_of_study > 0 are enrolled
-    students_due_for_attachment = students.filter(year_of_study__gte=3).count()  # Assuming students in 3rd year or higher are due for attachment
+    enrolled_students = students.filter(year_of_study__gt=0).count()
+    students_due_for_attachment = students.filter(year_of_study__gte=3).count()
+
+    # For reports, we will use dummy data for now or logic based on time periods like 'Today', 'This Month', and 'This Year'
+    # Here, for simplicity, I’m generating some example data that you can later replace with actual dynamic data.
+
+    today = datetime.today()
+    last_7_days = [today - timedelta(days=i) for i in range(7)]
+    total_students_data = [total_students for _ in range(7)]  # Dummy data for the last 7 days
+    enrolled_students_data = [enrolled_students for _ in range(7)]  # Dummy data for the last 7 days
+    attachment_due_data = [students_due_for_attachment for _ in range(7)]  # Dummy data for the last 7 days
 
     return render(request, 'core/university/main.html', {
         'university': university,
         'total_students': total_students,
         'enrolled_students': enrolled_students,
         'students_due_for_attachment': students_due_for_attachment,
+        'last_7_days': last_7_days,
+        'total_students_data': total_students_data,
+        'enrolled_students_data': enrolled_students_data,
+        'attachment_due_data': attachment_due_data,
     })
+
 
 @login_required
 def add_student(request):
