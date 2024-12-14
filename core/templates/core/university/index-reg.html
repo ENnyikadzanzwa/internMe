@@ -14,31 +14,74 @@
         <form method="POST" class="form" action="{% url 'university_registration' %}">
             {% csrf_token %}
             <div class="user-details">
+                <!-- Institution Name -->
                 <div class="input-box">
                     <span class="details">Institution Name</span>
                     <input type="text" name="name" placeholder="Institution Name" required value="{{ form.name.value|default:'' }}">
+                    <!-- Field-specific error -->
+                    {% if form.name.errors %}
+                        <div class="error-message">
+                            {{ form.name.errors|striptags }}
+                        </div>
+                    {% endif %}
                 </div>
+
+                <!-- Institution Address -->
                 <div class="input-box">
                     <span class="details">Institution Address</span>
                     <input type="text" name="address" placeholder="Institution Address" required value="{{ form.address.value|default:'' }}">
+                    {% if form.address.errors %}
+                        <div class="error-message">
+                            {{ form.address.errors|striptags }}
+                        </div>
+                    {% endif %}
                 </div>
+
+                <!-- Contact Email -->
                 <div class="input-box">
                     <span class="details">Contact Email</span>
                     <input type="email" name="contact_email" placeholder="Enter email" required value="{{ form.contact_email.value|default:'' }}">
+                    {% if form.contact_email.errors %}
+                        <div class="error-message">
+                            {{ form.contact_email.errors|striptags }}
+                        </div>
+                    {% endif %}
                 </div>
+
+                <!-- Admin Username -->
                 <div class="input-box">
                     <span class="details">Admin Username</span>
                     <input type="text" name="admin_username" placeholder="Admin Username" required value="{{ form.admin_username.value|default:'' }}">
+                    {% if form.admin_username.errors %}
+                        <div class="error-message">
+                            {{ form.admin_username.errors|striptags }}
+                        </div>
+                    {% endif %}
                 </div>
+
+                <!-- Admin Email -->
                 <div class="input-box">
                     <span class="details">Admin Email</span>
                     <input type="email" name="admin_email" placeholder="Enter Admin Email" required value="{{ form.admin_email.value|default:'' }}">
+                    {% if form.admin_email.errors %}
+                        <div class="error-message">
+                            {{ form.admin_email.errors|striptags }}
+                        </div>
+                    {% endif %}
                 </div>
+
+                <!-- Admin Password -->
                 <div class="input-box">
                     <span class="details">Admin Password</span>
-                    <input type="password" name="admin_password" placeholder="Admin Password" required value="{{ form.admin_password.value|default:'' }}">
-                </div>   
+                    <input type="password" name="admin_password" placeholder="Admin Password" required>
+                    {% if form.admin_password.errors %}
+                        <div class="error-message">
+                            {{ form.admin_password.errors|striptags }}
+                        </div>
+                    {% endif %}
+                </div>
             </div>
+
             <div class="button">
                 <input type="submit" value="Register">
                 <a href="{% url 'login' %}">Already have an account? Login</a>
