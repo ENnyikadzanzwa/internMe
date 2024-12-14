@@ -311,6 +311,7 @@ def university_dashboard(request):
 
     return render(request, 'core/university/main.html', {
         'university': university,
+        'students': students,
         'total_students': total_students,
         'enrolled_students': enrolled_students,
         'students_due_for_attachment': students_due_for_attachment,
