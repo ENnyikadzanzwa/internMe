@@ -15,7 +15,7 @@ from django.db.models import Q
 from django.db import IntegrityError
 from datetime import datetime, timedelta
 from django.http import HttpResponse
-from django.db.models import Avg, FloatField
+from django.db.models import Avg, FloatField,Count
 from django.db.models.functions import Cast
 from django.urls import reverse_lazy
 from django.views.generic.edit import UpdateView
