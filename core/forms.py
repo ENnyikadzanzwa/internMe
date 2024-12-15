@@ -218,3 +218,12 @@ class CustomPasswordChangeForm(PasswordChangeForm):
         self.fields['old_password'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Enter your old password'})
         self.fields['new_password1'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Enter new password'})
         self.fields['new_password2'].widget.attrs.update({'class': 'form-control', 'placeholder': 'Confirm new password'})
+
+
+class SingleResultForm(forms.ModelForm):
+    class Meta:
+        model = Result
+        fields = ['student', 'course_name', 'grade', 'semester', 'year']
+
+class BulkResultUploadForm(forms.Form):
+    file = forms.FileField(help_text="Upload a CSV file with columns: registration_number, course_name, grade, semester, year")

@@ -51,7 +51,6 @@ class Student(models.Model):
     def __str__(self):
         return f"{self.registration_number} - {self.program_of_study}"
 
-
 # Adding Resume and CoverLetter models
 class Resume(models.Model):
     student = models.OneToOneField(Student, on_delete=models.CASCADE)
@@ -114,7 +113,7 @@ class Application(models.Model):
     def __str__(self):
         return f"Application by {self.student.user.username} for {self.vacancy.title}"
 
-# Notification model (optional)
+# Notification model
 class Notification(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     message = models.TextField()
@@ -123,3 +122,15 @@ class Notification(models.Model):
 
     def __str__(self):
         return f"Notification for {self.user.username}"
+
+# Result model
+class Result(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    course = models.CharField(max_length=255)
+    grade = models.CharField(max_length=5)
+    semester = models.CharField(max_length=50)
+    year = models.IntegerField()
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Result for {self.student.user.username}: {self.course} - {self.grade}"

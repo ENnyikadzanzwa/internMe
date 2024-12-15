@@ -41,6 +41,10 @@ urlpatterns = [
     path('instutution/students/', views.student_list, name='student_list'),
     # URL for viewing enrolled students
     path('students/enrolled/', views.view_enrolled_students, name='view_enrolled_students'),
+    path('results/', views.result_list, name='result_list'),
+    path('results/upload-single/', views.upload_single_result, name='upload_single_result'),
+    path('results/upload-bulk/', views.upload_bulk_results, name='upload_bulk_results'),
+
     
     #student dashboard urls
     path('apply/<int:vacancy_id>/', views.apply_for_vacancy, name='apply_for_vacancy'),

@@ -8,12 +8,13 @@ from .models import Vacancy, Application
 from django.contrib.auth import authenticate, login,logout
 from django.contrib import messages
 from django.views.generic import TemplateView
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 import pandas as pd
 from django.utils.timezone import now
 from django.db.models import Q
 from django.db import IntegrityError
 from datetime import datetime, timedelta
+from django.http import HttpResponse
 
 
 
@@ -206,12 +207,7 @@ def vacancy_list(request):
     vacancies = Vacancy.objects.all()  # Optionally filter by other criteria (e.g., active, deadline passed)
     return render(request, 'core/company/vacancy_list.html', {'vacancies': vacancies})
 
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib import messages
-from .models import Vacancy, Application
-
 # Update Vacancy
-# Update Vacancy View
 def update_vacancy(request, id):
     vacancy = get_object_or_404(Vacancy, id=id)
     
@@ -405,6 +401,63 @@ def bulk_upload_students(request):
             return redirect('bulk_upload_students')
 
     return render(request, 'core/university/bulk_upload_students.html')
+
+
+# Helper function to check if the user is a university admin
+def is_university_admin(user):
+    return hasattr(user, 'extendeduser') and user.extendeduser.role == 'University Admin'
+
+@login_required
+@user_passes_test(is_university_admin)
+def result_list(request):
+    university = request.user.university_admin.first()  # Fetch the admin's university
+    results = Result.objects.filter(student__university=university)
+    return render(request, 'core/university/result_list.html', {'results': results})
+
+@login_required
+@user_passes_test(is_university_admin)
+def upload_single_result(request):
+    if request.method == 'POST':
+        form = SingleResultForm(request.POST)
+        if form.is_valid():
+            result = form.save(commit=False)
+            # Ensure the student belongs to the university of the logged-in admin
+            if result.student.university == request.user.university_admin.first():
+                result.save()
+                return redirect('result_list')
+            else:
+                form.add_error(None, "Student does not belong to your university.")
+    else:
+        form = SingleResultForm()
+    return render(request, 'core/university/upload_single.html', {'form': form})
+
+@login_required
+@user_passes_test(is_university_admin)
+def upload_bulk_results(request):
+    if request.method == 'POST':
+        form = BulkResultUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            file = form.cleaned_data['file']
+            university = request.user.university_admin.first()
+            try:
+                csv_file = file.read().decode('utf-8').splitlines()
+                reader = csv.DictReader(csv_file)
+                for row in reader:
+                    student = Student.objects.get(registration_number=row['registration_number'], university=university)
+                    Result.objects.create(
+                        student=student,
+                        course_name=row['course_name'],
+                        grade=row['grade'],
+                        semester=row['semester'],
+                        year=row['year']
+                    )
+                return redirect('result_list')
+            except Exception as e:
+                form.add_error(None, f"Error processing file: {e}")
+    else:
+        form = BulkResultUploadForm()
+    return render(request, 'core/university/upload_bulk.html', {'form': form})
+
 def student_list(request):
     # Fetch all students from the database
     students = Student.objects.all()
