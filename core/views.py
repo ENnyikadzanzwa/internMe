@@ -492,7 +492,7 @@ def performance_analytics(request):
     results = Result.objects.filter(student__university=university)
 
     # Aggregations for analytics
-    avg_grade_by_course = results.values('course_name').annotate(avg_grade=Avg('grade')).order_by('course_name')
+    avg_grade_by_course = results.values('course').annotate(avg_grade=Avg('grade')).order_by('course')
     avg_grade_by_year = results.values('year').annotate(avg_grade=Avg('grade')).order_by('year')
     overall_avg_grade = results.aggregate(overall_avg=Avg('grade'))['overall_avg']
 
