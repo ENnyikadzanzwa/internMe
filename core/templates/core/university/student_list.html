@@ -27,30 +27,31 @@
           </tr>
         </thead>
         <tbody>
-          <!-- Example rows, replace with dynamic data -->
-          <tr>
-            <th scope="row">1</th>
-            <td>John Doe</td>
-            <td>Computer Science</td>
-            <td><span class="badge bg-success">Enrolled</span></td>
-            <td>2024-01-15</td>
-            <td>
-              <button class="btn btn-warning btn-sm">Edit</button>
-              <button class="btn btn-danger btn-sm">Delete</button>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jane Smith</td>
-            <td>Business Administration</td>
-            <td><span class="badge bg-warning">Pending</span></td>
-            <td>2024-02-20</td>
-            <td>
-              <button class="btn btn-warning btn-sm">Edit</button>
-              <button class="btn btn-danger btn-sm">Delete</button>
-            </td>
-          </tr>
-          <!-- More rows will be added here dynamically -->
+          {% for student in students %}
+            <tr>
+              <th scope="row">{{ forloop.counter }}</th>
+              <td>{{ student.name }}</td>
+              <td>{{ student.course }}</td>
+              <td>
+                {% if student.status == "Enrolled" %}
+                  <span class="badge bg-success">{{ student.status }}</span>
+                {% elif student.status == "Pending" %}
+                  <span class="badge bg-warning">{{ student.status }}</span>
+                {% else %}
+                  <span class="badge bg-secondary">{{ student.status }}</span>
+                {% endif %}
+              </td>
+              <td>{{ student.enrollment_date }}</td>
+              <td>
+                <button class="btn btn-warning btn-sm">Edit</button>
+                <button class="btn btn-danger btn-sm">Delete</button>
+              </td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="6">No students found.</td>
+            </tr>
+          {% endfor %}
         </tbody>
       </table>
     </div>
