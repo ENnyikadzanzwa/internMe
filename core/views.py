@@ -487,20 +487,42 @@ def enrollment_report(request):
 
 
 
-
 def performance_analytics(request):
     # Fetch the university the current user is associated with
-    # Assuming `university_id` is passed in the request or derived from the user profile
     university = University.objects.get(university_admin=request.user)
 
     # Filter results for students in the selected university
     results = Result.objects.filter(student__university=university)
 
-    # Cast `grade` to float in case it's stored as a non-numeric type
-    results = results.annotate(grade_as_float=Cast('grade', FloatField()))
+    # Define a mapping for letter grades to numeric equivalents
+    grade_mapping = {
+        "A": 4.0,
+        "B": 3.0,
+        "C": 2.0,
+        "D": 1.0,
+        "F": 0.0
+    }
 
-    # Calculate overall average grade
-    overall_avg_grade = results.aggregate(overall_avg=Avg('grade_as_float'))['overall_avg']
+    # Annotate a new field for numeric grades
+    results = results.annotate(
+        numeric_grade=Cast('grade', FloatField())
+    )
+
+    # Replace non-numeric grades with mapped numeric equivalents
+    results_with_numeric_grades = []
+    for result in results:
+        try:
+            numeric_grade = float(result.grade)
+        except ValueError:
+            numeric_grade = grade_mapping.get(result.grade.upper(), None)  # Default to None if unmapped
+        if numeric_grade is not None:
+            results_with_numeric_grades.append(numeric_grade)
+
+    # Calculate overall average grade if there are valid numeric grades
+    overall_avg_grade = (
+        sum(results_with_numeric_grades) / len(results_with_numeric_grades)
+        if results_with_numeric_grades else None
+    )
 
     # Prepare context for rendering
     context = {
@@ -510,6 +532,7 @@ def performance_analytics(request):
     }
 
     return render(request, 'core/university/performance_analytics.html', context)
+
 
 
 
