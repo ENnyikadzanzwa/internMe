@@ -223,7 +223,7 @@ class CustomPasswordChangeForm(PasswordChangeForm):
 class SingleResultForm(forms.ModelForm):
     class Meta:
         model = Result
-        fields = ['student', 'course_name', 'grade', 'semester', 'year']
+        fields = ['student', 'course', 'grade', 'semester', 'year']
 
 class BulkResultUploadForm(forms.Form):
-    file = forms.FileField(help_text="Upload a CSV file with columns: registration_number, course_name, grade, semester, year")
+    file = forms.FileField(help_text="Upload a CSV file with columns: registration_number, course, grade, semester, year")
