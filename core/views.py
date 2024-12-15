@@ -184,6 +184,24 @@ def company_dashboard(request):
     })
 
 
+@login_required
+def company_students(request):
+    # Ensure the logged-in user is a company representative
+    if not request.user.is_authenticated or request.user.extendeduser.role != 'Company Representative':
+        return redirect('login')
+
+    # Get the company associated with the logged-in user
+    company = Company.objects.get(company_rep=request.user)
+
+    # Get students who have applied to this company's vacancies
+    applications = Application.objects.filter(vacancy__company=company)
+    students = Student.objects.filter(id__in=applications.values_list('student_id', flat=True))
+
+    return render(request, 'core/company/company_students.html', {
+        'company': company,
+        'students': students,
+    })
+
 
 @login_required
 def company_profile(request):

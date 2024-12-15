@@ -34,6 +34,7 @@ urlpatterns = [
     path('all-applications/', views.all_applications, name='all_applications'),
     path('company/profile/', views.company_profile, name='company_profile'),
     path('company/profile/edit/', views.edit_company_profile, name='edit_company_profile'),
+    path('company/students/', views.company_students, name='company_students'),
 
     #university dashboard
     path('university-dashboard/', views.university_dashboard, name='university_dashboard'),
