@@ -127,7 +127,7 @@ class Notification(models.Model):
 class Result(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     course = models.CharField(max_length=255)
-    grade = models.CharField(max_length=5)
+    grade = models.FloatField()
     semester = models.CharField(max_length=50)
     year = models.IntegerField()
     uploaded_at = models.DateTimeField(auto_now_add=True)
