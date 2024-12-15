@@ -272,9 +272,26 @@ def post_vacancy(request):
         form = VacancyForm()
 
     return render(request, 'core/company/post_vacancy.html', {'form': form})
+
+
+@login_required
 def vacancy_list(request):
-    vacancies = Vacancy.objects.all()  # Optionally filter by other criteria (e.g., active, deadline passed)
+    # Ensure the user is a company representative
+    if not request.user.is_authenticated or request.user.extendeduser.role != 'Company Representative':
+        return redirect('login')
+
+    # Get the company associated with the logged-in user
+    try:
+        company = Company.objects.get(company_rep=request.user)
+    except Company.DoesNotExist:
+        # Handle case where the logged-in user is not associated with a company
+        return render(request, 'core/company/vacancy_list.html', {'vacancies': [], 'error': "You are not associated with any company."})
+
+    # Retrieve vacancies associated with the company
+    vacancies = Vacancy.objects.filter(company=company)
+
     return render(request, 'core/company/vacancy_list.html', {'vacancies': vacancies})
+
 
 # Update Vacancy
 def update_vacancy(request, id):
