@@ -583,10 +583,26 @@ def upload_bulk_results(request):
         form = BulkResultUploadForm()
     return render(request, 'core/university/upload_bulk.html', {'form': form})
 
+
+
+@login_required
 def student_list(request):
-    # Fetch all students from the database
-    students = Student.objects.all()
+    # Check if the user is a University Admin
+    try:
+        if request.user.extendeduser.role != 'University Admin':
+            messages.error(request, "You do not have permission to this page")
+            return redirect('home')
+    except User.DoesNotExist:
+        messages.error(request, "User role not found.")
+        return redirect('home')
+
+    university = University.objects.get(university_admin=request.user)
+
+    # Fetch students associated with this university
+    students = Student.objects.filter(university=university)
+
     return render(request, 'core/university/student_list.html', {'students': students})
+
 
 
 
