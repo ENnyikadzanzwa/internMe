@@ -44,6 +44,9 @@ urlpatterns = [
     path('results/', views.result_list, name='result_list'),
     path('results/upload-single/', views.upload_single_result, name='upload_single_result'),
     path('results/upload-bulk/', views.upload_bulk_results, name='upload_bulk_results'),
+    path('analytics/enrollment-report/', views.enrollment_report, name='enrollment_report'),
+    path('analytics/performance-analytics/', views.performance_analytics, name='performance_analytics'),
+
 
     
     #student dashboard urls

@@ -1,0 +1,45 @@
+{% extends 'core/university/index.html' %}
+{% load static %}
+{% block content %}
+<h2>Student Enrollment Report</h2>
+
+<h3>Total Students: {{ total_students }}</h3>
+
+<h3>By Year of Study</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Year of Study</th>
+            <th>Total Students</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in by_year %}
+        <tr>
+            <td>{{ row.year_of_study }}</td>
+            <td>{{ row.total }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h3>By Program of Study</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Program of Study</th>
+            <th>Total Students</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in by_program %}
+        <tr>
+            <td>{{ row.program_of_study }}</td>
+            <td>{{ row.total }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{% url 'university_dashboard' %}">Back to Dashboard</a>
+{% endblock %}

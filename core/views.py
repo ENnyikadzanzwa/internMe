@@ -15,6 +15,8 @@ from django.db.models import Q
 from django.db import IntegrityError
 from datetime import datetime, timedelta
 from django.http import HttpResponse
+from django.db.models import Count, Avg
+
 
 
 
@@ -463,6 +465,43 @@ def student_list(request):
     students = Student.objects.all()
     return render(request, 'core/university/student_list.html', {'students': students})
 
+
+
+@login_required
+@user_passes_test(is_university_admin)  # Reuse the helper function
+def enrollment_report(request):
+    university = request.user.university_admin.first()  # Get the admin's university
+    students = Student.objects.filter(university=university)
+
+    # Aggregations for the enrollment report
+    by_year = students.values('year_of_study').annotate(total=Count('id')).order_by('year_of_study')
+    by_program = students.values('program_of_study').annotate(total=Count('id')).order_by('program_of_study')
+    total_students = students.count()
+
+    context = {
+        'by_year': by_year,
+        'by_program': by_program,
+        'total_students': total_students,
+    }
+    return render(request, 'core/university/enrollment_report.html', context)
+
+@login_required
+@user_passes_test(is_university_admin)
+def performance_analytics(request):
+    university = request.user.university_admin.first()
+    results = Result.objects.filter(student__university=university)
+
+    # Aggregations for analytics
+    avg_grade_by_course = results.values('course_name').annotate(avg_grade=Avg('grade')).order_by('course_name')
+    avg_grade_by_year = results.values('year').annotate(avg_grade=Avg('grade')).order_by('year')
+    overall_avg_grade = results.aggregate(overall_avg=Avg('grade'))['overall_avg']
+
+    context = {
+        'avg_grade_by_course': avg_grade_by_course,
+        'avg_grade_by_year': avg_grade_by_year,
+        'overall_avg_grade': overall_avg_grade,
+    }
+    return render(request, 'core/university/performance_analytics.html', context)
 
 
 def view_enrolled_students(request):

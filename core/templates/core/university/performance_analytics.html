@@ -1,0 +1,78 @@
+{% extends 'core/university/index.html' %}
+{%  load static %}
+{% block content %}
+<h2>Student Performance Analytics</h2>
+
+<h3>Overall Average Grade: {{ overall_avg_grade }}</h3>
+
+<h3>Average Grade by Course</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Course Name</th>
+            <th>Average Grade</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in avg_grade_by_course %}
+        <tr>
+            <td>{{ row.course_name }}</td>
+            <td>{{ row.avg_grade|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h3>Average Grade by Year</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Year</th>
+            <th>Average Grade</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in avg_grade_by_year %}
+        <tr>
+            <td>{{ row.year }}</td>
+            <td>{{ row.avg_grade|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<canvas id="avgGradeByCourseChart"></canvas>
+<script>
+    const labels = {{ avg_grade_by_course|safe }};
+    const data = {
+        labels: labels.map(row => row.course_name),
+        datasets: [{
+            label: 'Average Grade',
+            data: labels.map(row => row.avg_grade),
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+        }]
+    };
+
+    const config = {
+        type: 'bar',
+        data: data,
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    };
+
+    new Chart(
+        document.getElementById('avgGradeByCourseChart'),
+        config
+    );
+</script>
+
+
+<a href="{% url 'university_dashboard' %}">Back to Dashboard</a>
+{% endblock %}
