@@ -15,8 +15,8 @@ from django.db.models import Q
 from django.db import IntegrityError
 from datetime import datetime, timedelta
 from django.http import HttpResponse
-from django.db.models import Count, Avg
-
+from django.db.models import Avg, FloatField
+from django.db.models.functions import Cast
 
 
 
@@ -485,23 +485,32 @@ def enrollment_report(request):
     }
     return render(request, 'core/university/enrollment_report.html', context)
 
-@login_required
-@user_passes_test(is_university_admin)
+
+
+
 def performance_analytics(request):
-    university = request.user.university_admin.first()
+    # Fetch the university the current user is associated with
+    # Assuming `university_id` is passed in the request or derived from the user profile
+    university = University.objects.get(university_admin=request.user)
+
+    # Filter results for students in the selected university
     results = Result.objects.filter(student__university=university)
 
-    # Aggregations for analytics
-    avg_grade_by_course = results.values('course').annotate(avg_grade=Avg('grade')).order_by('course')
-    avg_grade_by_year = results.values('year').annotate(avg_grade=Avg('grade')).order_by('year')
-    overall_avg_grade = results.aggregate(overall_avg=Avg('grade'))['overall_avg']
+    # Cast `grade` to float in case it's stored as a non-numeric type
+    results = results.annotate(grade_as_float=Cast('grade', FloatField()))
 
+    # Calculate overall average grade
+    overall_avg_grade = results.aggregate(overall_avg=Avg('grade_as_float'))['overall_avg']
+
+    # Prepare context for rendering
     context = {
-        'avg_grade_by_course': avg_grade_by_course,
-        'avg_grade_by_year': avg_grade_by_year,
+        'university': university,
         'overall_avg_grade': overall_avg_grade,
+        'results': results,
     }
+
     return render(request, 'core/university/performance_analytics.html', context)
+
 
 
 def view_enrolled_students(request):
