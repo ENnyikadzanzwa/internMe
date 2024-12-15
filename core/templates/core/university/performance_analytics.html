@@ -16,7 +16,7 @@
     <tbody>
         {% for row in avg_grade_by_course %}
         <tr>
-            <td>{{ row.course_name }}</td>
+            <td>{{ row.course }}</td>
             <td>{{ row.avg_grade|floatformat:2 }}</td>
         </tr>
         {% endfor %}
@@ -45,7 +45,7 @@
 <script>
     const labels = {{ avg_grade_by_course|safe }};
     const data = {
-        labels: labels.map(row => row.course_name),
+        labels: labels.map(row => row.course),
         datasets: [{
             label: 'Average Grade',
             data: labels.map(row => row.avg_grade),
