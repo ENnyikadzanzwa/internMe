@@ -323,6 +323,28 @@ def university_dashboard(request):
 
 
 
+@login_required
+def university_profile(request):
+    # Ensure the logged-in user is a University Admin
+    if not request.user.extendeduser.role == 'University Admin':
+        return HttpResponseForbidden("You do not have permission to access this page.")
+
+    # Get the university associated with the logged-in user
+    university = get_object_or_404(University, university_admin=request.user)
+
+    if request.method == 'POST':
+        form = UniversityForm(request.POST, instance=university)
+        if form.is_valid():
+            form.save()
+            return redirect('university_profile')  # Replace with the correct profile page URL name
+    else:
+        form = UniversityForm(instance=university)
+
+    context = {
+        'form': form,
+        'university': university,
+    }
+    return render(request, 'core/university/profile.html', context)
 
 
 @method_decorator(login_required, name='dispatch')

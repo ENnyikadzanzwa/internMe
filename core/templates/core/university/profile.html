@@ -1,0 +1,22 @@
+{% extends 'core/university/index.html' %}
+{%  load static %}
+{% block content %}
+<div class="container mt-5">
+    <h2>University Profile</h2>
+    <hr>
+    <h4>{{ university.name }}</h4>
+    <p><strong>Mission:</strong> {{ university.mission }}</p>
+    <p><strong>Vision:</strong> {{ university.vision }}</p>
+    <p><strong>About:</strong> {{ university.about }}</p>
+    <p><strong>Address:</strong> {{ university.address }}</p>
+    <p><strong>Contact Email:</strong> {{ university.contact_email }}</p>
+    <hr>
+
+    <h3>Edit University Profile</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+</div>
+{% endblock %}
