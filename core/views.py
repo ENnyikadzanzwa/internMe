@@ -17,7 +17,9 @@ from datetime import datetime, timedelta
 from django.http import HttpResponse
 from django.db.models import Avg, FloatField
 from django.db.models.functions import Cast
-
+from django.urls import reverse_lazy
+from django.views.generic.edit import UpdateView
+from django.utils.decorators import method_decorator
 
 
 def login_view(request):
@@ -319,6 +321,23 @@ def university_dashboard(request):
         'attachment_due_data': attachment_due_data,
     })
 
+
+
+
+
+@method_decorator(login_required, name='dispatch')
+class UniversityUpdateView(UpdateView):
+    model = University
+    form_class = UniversityForm
+    template_name = 'core/university/edit_profile.html'
+
+    def get_object(self, queryset=None):
+        # Ensure only the university associated with the current user is editable
+        return get_object_or_404(University, university_admin=self.request.user)
+
+    def get_success_url(self):
+        # Redirect to the profile page or analytics after successful update
+        return reverse_lazy('university_profile')  # Replace with the actual profile page URL name
 
 @login_required
 def add_student(request):

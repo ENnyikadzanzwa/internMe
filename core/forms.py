@@ -227,3 +227,15 @@ class SingleResultForm(forms.ModelForm):
 
 class BulkResultUploadForm(forms.Form):
     file = forms.FileField(help_text="Upload a CSV file with columns: registration_number, course, grade, semester, year")
+
+
+
+class UniversityForm(forms.ModelForm):
+    class Meta:
+        model = University
+        fields = ['name', 'mission', 'vision', 'about', 'address', 'contact_email']
+        widgets = {
+            'mission': forms.Textarea(attrs={'rows': 3}),
+            'vision': forms.Textarea(attrs={'rows': 3}),
+            'about': forms.Textarea(attrs={'rows': 5}),
+        }

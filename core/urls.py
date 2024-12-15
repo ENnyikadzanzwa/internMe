@@ -46,6 +46,7 @@ urlpatterns = [
     path('results/upload-bulk/', views.upload_bulk_results, name='upload_bulk_results'),
     path('analytics/enrollment-report/', views.enrollment_report, name='enrollment_report'),
     path('analytics/performance-analytics/', views.performance_analytics, name='performance_analytics'),
+    path('university/edit/', views.UniversityUpdateView.as_view(), name='edit_university_profile'),
 
 
     
