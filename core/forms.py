@@ -225,6 +225,15 @@ class SingleResultForm(forms.ModelForm):
         model = Result
         fields = ['student', 'course', 'grade', 'semester', 'year']
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Assuming the user is logged in and has an associated university
+        user = kwargs.get('user')
+        if user:
+            # Filter the student queryset to only show students from the same university
+            self.fields['student'].queryset = Student.objects.filter(university=user.university_admin.first())
+
+
 class BulkResultUploadForm(forms.Form):
     file = forms.FileField(help_text="Upload a CSV file with columns: registration_number, course, grade, semester, year")
 
