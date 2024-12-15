@@ -3,39 +3,40 @@
 <div class="right">
     {% include 'core/company/header.html' %}
     <div class="top-applicants">
-        <h2>Top Applicants</h2>
+        <h2>About Company</h2>
         <div class="applicants">
             <div class="applicant">
                 <div class="profile-photo">
-                    <img src="{% static 'images/logo.jpeg' %}" alt="">
+                    <i class="fas fa-bullseye"></i> <!-- Icon for Mission -->
                 </div>
                 <div class="message">
-                    <p><b>Manooo</b>applied not yet respondend</p>
-                    <small class="text-muted">2days Ago</small>
+                    <p><b>Mission:</b></p>
+                    <p>{{ company.mission }}</p>
                 </div>
             </div>
-
+    
             <div class="applicant">
                 <div class="profile-photo">
-                    <img src="{% static 'images/logo.jpeg' %}" alt="">
+                    <i class="fas fa-eye"></i> <!-- Icon for Vision -->
                 </div>
                 <div class="message">
-                    <p><b>Manooo</b>applied not yet respondend</p>
-                    <small class="text-muted">2days Ago</small>
+                    <p><b>Vision:</b></p>
+                    <p>{{ company.vision }}</p>
                 </div>
             </div>
-
+    
             <div class="applicant">
                 <div class="profile-photo">
-                    <img src="{% static 'images/logo.jpeg' %}" alt="">
+                    <i class="fas fa-info-circle"></i> <!-- Icon for About -->
                 </div>
                 <div class="message">
-                    <p><b>Manooo</b>applied not yet respondend</p>
-                    <small class="text-muted">2days Ago</small>
+                    <p><b>About:</b></p>
+                    <p>{{ company.about }}</p>
                 </div>
             </div>
         </div>
     </div>
+    
     <!-- =============END OF TOP APPLICANTS -->
      <div class="internship-analytics">
         <h2>InternShip Analytics</h2>
