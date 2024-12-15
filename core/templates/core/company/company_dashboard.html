@@ -1,4 +1,3 @@
-
 {% extends 'core/company/main.html' %}
 {% load static %}
 {% block content%}
@@ -8,12 +7,12 @@
         <input type="date">
     </div>
     <div class="insights">
-        <div class="internships">s
+        <div class="internships">
             <span class="material-icons-sharp">work</span>
             <div class="middle">
                 <div class="left">
                     <h3>Total Internship Posts</h3>
-                    <h1>10</h1>
+                    <h1>{{ vacancies.count }}</h1>
                 </div>
                 <div class="progress">
                     <svg>
@@ -23,7 +22,6 @@
                         <p>80%</p>
                     </div>
                 </div>
-                
             </div>
             <small class="text-muted">Last 24hrs</small>
         </div>
@@ -33,7 +31,7 @@
             <div class="middle">
                 <div class="left">
                     <h3>Total Applications</h3>
-                    <h1>10</h1>
+                    <h1>{{ applications.count }}</h1>
                 </div>
                 <div class="progress">
                     <svg>
@@ -43,7 +41,6 @@
                         <p>80%</p>
                     </div>
                 </div>
-                
             </div>
             <small class="text-muted">Last 24hrs</small>
         </div>
@@ -52,8 +49,8 @@
             <span class="material-icons-sharp">group</span>
             <div class="middle">
                 <div class="left">
-                    <h3>Enrolled students</h3>
-                    <h1>10</h1>
+                    <h3>Enrolled Students</h3>
+                    <h1>{{ students.count }}</h1>
                 </div>
                 <div class="progress">
                     <svg>
@@ -63,7 +60,6 @@
                         <p>80%</p>
                     </div>
                 </div>
-                
             </div>
             <small class="text-muted">Last 24hrs</small>
         </div>
@@ -83,53 +79,30 @@
                 </tr>
             </thead>
             <tbody>
+                {% for application in applications %}
                 <tr>
-                    <td>001</td>
-                    <td>John Doe</td>
-                    <td>[resume]</td>
-                    <td>[cover letter]</td>
-                    <td class="warning">pending</td>
+                    <td>{{ application.id }}</td>
+                    <td>{{ application.applicant.full_name }}</td>
+                    <td>
+                        <a href="{{ application.resume.url }}">Resume</a>
+                    </td>
+                    <td>
+                        <a href="{{ application.cover_letter.url }}">Cover Letter</a>
+                    </td>
+                    <td class="{% if application.status == 'pending' %}warning{% elif application.status == 'approved' %}success{% else %}danger{% endif %}">
+                        {{ application.status }}
+                    </td>
                 </tr>
+                {% empty %}
                 <tr>
-                    <td>001</td>
-                    <td>John Doe</td>
-                    <td>[resume]</td>
-                    <td>[cover letter]</td>
-                    <td class="warning">pending</td>
+                    <td colspan="5">No applications found.</td>
                 </tr>
-                <tr>
-                    <td>001</td>
-                    <td>John Doe</td>
-                    <td>[resume]</td>
-                    <td>[cover letter]</td>
-                    <td class="warning">pending</td>
-                </tr>
-                <tr>
-                    <td>001</td>
-                    <td>John Doe</td>
-                    <td>[resume]</td>
-                    <td>[cover letter]</td>
-                    <td class="warning">pending</td>
-                </tr>
-                <tr>
-                    <td>001</td>
-                    <td>John Doe</td>
-                    <td>[resume]</td>
-                    <td>[cover letter]</td>
-                    <td class="warning">pending</td>
-                </tr>
-                <tr>
-                    <td>001</td>
-                    <td>John Doe</td>
-                    <td>[resume]</td>
-                    <td>[cover letter]</td>
-                    <td class="warning">pending</td>
-                </tr>
+                {% endfor %}
             </tbody>
         </table>
         <a href="#">Show All</a>
     </div>
 </main>
 
- {% include 'core/company/right.html' %}
- {% endblock %}
+{% include 'core/company/right.html' %}
+{% endblock %}

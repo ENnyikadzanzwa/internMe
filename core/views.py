@@ -158,22 +158,31 @@ def system_admin_dashboard(request):
     })
 
 
-#company
+
 def company_dashboard(request):
     if not request.user.is_authenticated or request.user.extendeduser.role != 'Company Representative':
         return redirect('login')
 
     # Get the company associated with the authenticated user
-    company = Company.objects.get(company_rep=request.user)
-    user = request.user
+    company = get_object_or_404(Company, company_rep=request.user)
+
     # Get all vacancies for the company
     vacancies = company.vacancy_set.all()
+
+    # Get applications for the company's vacancies
+    applications = Application.objects.filter(vacancy__in=vacancies)
+
+    # You can also fetch students or other related data here
+    students = Student.objects.filter(application__in=applications).distinct()
 
     return render(request, 'core/company/company_dashboard.html', {
         'company': company,
         'vacancies': vacancies,
-        'user':user
+        'applications': applications,
+        'students': students,
+        'user': request.user,
     })
+
 
 
 @login_required
