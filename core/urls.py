@@ -32,6 +32,7 @@ urlpatterns = [
     path('view-applicants/<int:id>/', views.view_applicants, name='view_applicants'),
     path('remove-vacancy/<int:id>/', views.remove_vacancy, name='remove_vacancy'),
     path('all-applications/', views.all_applications, name='all_applications'),
+    path('company/profile/', views.company_profile, name='company_profile'),
 
     #university dashboard
     path('university-dashboard/', views.university_dashboard, name='university_dashboard'),

@@ -1,0 +1,23 @@
+{% extends 'core/company/main.html' %}
+{% load static %}
+{% block content%}
+<div class="container mt-5">
+    <h2>Company Profile</h2>
+    <hr>
+    <h4>{{ company.name }}</h4>
+    <p><strong>Mission:</strong> {{ company.mission }}</p>
+    <p><strong>Vision:</strong> {{ company.vision }}</p>
+    <p><strong>About:</strong> {{ company.about }}</p>
+    <p><strong>Address:</strong> {{ company.address }}</p>
+    <p><strong>Contact Email:</strong> {{ company.contact_email }}</p>
+    <p><strong>Industry:</strong> {{ company.industry }}</p>
+    <hr>
+
+    <h3>Edit Company Profile</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+</div>
+{% endblock %}

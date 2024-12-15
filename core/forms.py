@@ -239,3 +239,14 @@ class UniversityForm(forms.ModelForm):
             'vision': forms.Textarea(attrs={'rows': 3}),
             'about': forms.Textarea(attrs={'rows': 5}),
         }
+
+
+class CompanyForm(forms.ModelForm):
+    class Meta:
+        model = Company
+        fields = ['name', 'mission', 'vision', 'about', 'address', 'contact_email', 'industry']
+        widgets = {
+            'mission': forms.Textarea(attrs={'rows': 4}),
+            'vision': forms.Textarea(attrs={'rows': 4}),
+            'about': forms.Textarea(attrs={'rows': 6}),
+        }
