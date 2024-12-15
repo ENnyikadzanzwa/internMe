@@ -12,12 +12,6 @@
     <p><strong>Contact Email:</strong> {{ company.contact_email }}</p>
     <p><strong>Industry:</strong> {{ company.industry }}</p>
     <hr>
-
-    <h3>Edit Company Profile</h3>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Save Changes</button>
-    </form>
+    <a href="{% url 'edit_company_profile' %}" class="btn btn-primary">Edit Profile</a>
 </div>
 {% endblock %}

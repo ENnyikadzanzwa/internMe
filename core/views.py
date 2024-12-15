@@ -176,9 +176,23 @@ def company_dashboard(request):
     })
 
 
-
 @login_required
 def company_profile(request):
+    # Ensure the logged-in user is a Company Representative
+    if not request.user.extendeduser.role == 'Company Representative':
+        return HttpResponseForbidden("You do not have permission to access this page.")
+
+    # Get the company associated with the logged-in user
+    company = get_object_or_404(Company, company_rep=request.user)
+
+    context = {
+        'company': company,
+    }
+    return render(request, 'core/company/company_profile.html', context)
+
+
+@login_required
+def edit_company_profile(request):
     # Ensure the logged-in user is a Company Representative
     if not request.user.extendeduser.role == 'Company Representative':
         return HttpResponseForbidden("You do not have permission to access this page.")
@@ -190,7 +204,7 @@ def company_profile(request):
         form = CompanyForm(request.POST, instance=company)
         if form.is_valid():
             form.save()
-            return redirect('company_profile')  # Replace with the correct profile page URL name
+            return redirect('company_profile')  # Redirect to the profile page after saving changes
     else:
         form = CompanyForm(instance=company)
 
@@ -198,7 +212,7 @@ def company_profile(request):
         'form': form,
         'company': company,
     }
-    return render(request, 'core/company/company_profile.html', context)
+    return render(request, 'core/company/edit_company_profile.html', context)
 
 @login_required
 def post_vacancy(request):
