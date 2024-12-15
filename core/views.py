@@ -543,7 +543,7 @@ def result_list(request):
 @user_passes_test(is_university_admin)
 def upload_single_result(request):
     if request.method == 'POST':
-        form = SingleResultForm(request.POST, user=request.user)  # Pass the user to the form
+        form = SingleResultForm(request.POST, user=request.user)  # Pass user to form via kwargs
         if form.is_valid():
             result = form.save(commit=False)
             # Ensure the student belongs to the university of the logged-in admin
@@ -553,7 +553,7 @@ def upload_single_result(request):
             else:
                 form.add_error(None, "Student does not belong to your university.")
     else:
-        form = SingleResultForm(user=request.user)  # Pass the user to the form
+        form = SingleResultForm(initial={'user': request.user})  # Pass user via initial
     return render(request, 'core/university/upload_single.html', {'form': form})
 
 

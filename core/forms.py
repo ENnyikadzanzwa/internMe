@@ -226,9 +226,8 @@ class SingleResultForm(forms.ModelForm):
         fields = ['student', 'course', 'grade', 'semester', 'year']
 
     def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)  # Retrieve user from kwargs
         super().__init__(*args, **kwargs)
-        # Assuming the user is logged in and has an associated university
-        user = kwargs.get('user')
         if user:
             # Filter the student queryset to only show students from the same university
             self.fields['student'].queryset = Student.objects.filter(university=user.university_admin.first())
