@@ -21,6 +21,7 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import UpdateView
 from django.utils.decorators import method_decorator
 
+import sweetify
 
 def login_view(request):
     if request.method == 'POST':
@@ -81,13 +82,19 @@ def company_registration(request):
     return render(request, 'core/company/company_registration.html', {'form': form})
 
 
+
+
 def student_registration(request):
     if request.method == 'POST':
         form = StudentRegistrationForm(request.POST)
         if form.is_valid():
-            form.save()  # Create the User and link it to the existing Student
-            messages.success(request, "Your account has been created successfully!")
-            return redirect('login')  # Redirect to the login page
+            try:
+                form.save()  # Create the User and link it to the existing Student
+                messages.success(request, "Your account has been created successfully!")
+                return redirect('login')  # Redirect to the login page
+            except IntegrityError:
+                # Handle IntegrityError (e.g., if the student registration number already exists)
+                sweetify.error(request, title="Error", message="This registration number already has an associated user account.", icon="error")
         else:
             messages.error(request, "There was an error in your registration form. Please correct it.")
     else:

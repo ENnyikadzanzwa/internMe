@@ -1,44 +1,78 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Student Registration</title>
     <link rel="stylesheet" href="{% static 'auth/reg-styles.css' %}">
+    <!-- SweetAlert CSS for styling alerts -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 </head>
 <body>
     <div class="container">
-        <div class="title">Student Registrationn</div>
+        <div class="title">Student Registration</div>
         <form method="POST" class="form" action="{% url 'student_registration' %}">
             {% csrf_token %}
             <div class="user-details">
                 <div class="input-box">
                     <span class="details">Registration Number</span>
-                    <input type="text" name="registration_number" placeholder="Instutution Name" required value="{{ form.registration_number.value|default:'' }}">
+                    <input type="text" name="registration_number" placeholder="Enter Registration Number" required value="{{ form.registration_number.value|default:'' }}">
+                    {% if form.registration_number.errors %}
+                        <div class="error">
+                            {% for error in form.registration_number.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
+
                 <div class="input-box">
-                    <span class="details"> Select Instutution</span>
+                    <span class="details">Select Institution</span>
                     {{ form.university }}
-                    <!-- <input type="text" name="address" placeholder="Instutution Address" required value="{{ form.address.value|default:'' }}"> -->
+                    {% if form.university.errors %}
+                        <div class="error">
+                            {% for error in form.university.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
-                
+
                 <div class="input-box">
                     <span class="details">Email</span>
                     <input type="email" name="email" placeholder="Enter your email" required value="{{ form.email.value|default:'' }}">
+                    {% if form.email.errors %}
+                        <div class="error">
+                            {% for error in form.email.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
+
                 <div class="input-box">
                     <span class="details">Password</span>
                     <input type="password" name="password" placeholder="Enter Password" required value="{{ form.password.value|default:'' }}">
+                    {% if form.password.errors %}
+                        <div class="error">
+                            {% for error in form.password.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>   
             </div>
+
             <div class="button">
-                    <input type="submit" value="Register">
-                    <a href="{% url 'login' %}">Already have an account Login</a>
-                </div>
+                <input type="submit" value="Register">
+                <a href="{% url 'login' %}">Already have an account? Login</a>
+            </div>
         </form>
     </div>
+
+    <!-- SweetAlert JS for alerts -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 </body>
 </html>
-
-
