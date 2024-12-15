@@ -1,49 +1,75 @@
 {% extends 'core/company/main.html' %}
 {% load static %}
-{% block content%}
+{% block content %}
 
 <main>
     <h2>Company Profile</h2>
     <div class="insights">
+
+        <!-- Mission Card -->
         <div class="internships">
             <span class="material-icons-sharp">work</span>
             <div class="middle">
                 <div class="left">
-                    <h3>{{ company.name }}</h3>
-                    <h1><strong>Mission:</strong> {{ company.mission }}</h1>
-                    <p><strong>Industry:</strong> {{ company.industry }}</p>
+                    <h3>Mission</h3>
+                    <p>{{ company.mission }}</p>
                 </div>
             </div>
-            <small class="text-muted">foundend in </small>
         </div>
-        <!-- end of internships -->
+        <!-- End of Mission Card -->
+
+        <!-- About Card -->
         <div class="applications">
             <span class="material-icons-sharp">description</span>
             <div class="middle">
                 <div class="left">
-                    <h3><strong>About:</strong> {{ company.about }}</h3>
-                    <h3><strong>Address:</strong> {{ company.address }}</h3>  
+                    <h3>About</h3>
+                    <p>{{ company.about }}</p>
                 </div>
-                
             </div>
-            <small class="text-muted"><strong>Contact Email:</strong> {{ company.contact_email }}</small>
         </div>
-        <!-- end of applications -->
+        <!-- End of About Card -->
+
+        <!-- Industry Card -->
         <div class="students">
-            <span class="material-icons-sharp">group</span>
+            <span class="material-icons-sharp">business</span>
             <div class="middle">
                 <div class="left">
-                    <h3>Vision:</h3>
-                    <h1>{{ company.vision }}</h1> 
+                    <h3>Industry</h3>
+                    <p>{{ company.industry }}</p>
                 </div>
-                
             </div>
-            <small class="text-muted">Last 72hrs</small>
         </div>
-        <!-- end of students -->
+        <!-- End of Industry Card -->
+
+        <!-- Address Card -->
+        <div class="students">
+            <span class="material-icons-sharp">location_on</span>
+            <div class="middle">
+                <div class="left">
+                    <h3>Address</h3>
+                    <p>{{ company.address }}</p>
+                    <small class="text-muted"><strong>Contact Email:</strong> {{ company.contact_email }}</small>
+                </div>
+            </div>
+        </div>
+        <!-- End of Address Card -->
+
+        <!-- Edit Profile Card -->
+        <div class="students">
+            <span class="material-icons-sharp">edit</span>
+            <div class="middle">
+                <div class="left">
+                    <h3>Edit Profile</h3>
+                    <a href="{% url 'edit_company_profile' %}" class="btn btn-primary">Edit Profile</a>
+                </div>
+            </div>
+        </div>
+        <!-- End of Edit Profile Card -->
+
     </div>
-    <a href="{% url 'edit_company_profile' %}" class="btn btn-primary">Edit Profile</a>
 </main>
+
 <div class="right">
     {% include 'core/company/header.html' %}
 </div>
