@@ -1,24 +1,37 @@
 {% extends 'core/company/main.html' %}
 {% load static %}
 {% block content%}
-<div class="container">
-    <h2>Students Applied to Your Vacancies</h2>
 
-    {% if students %}
-        <ul class="student-list">
-            {% for student in students %}
-            <li class="student-item">
-                <div>
-                    <strong>{{ student.name }} {{ student.last_name }}</strong> 
-                    ({{ student.registration_number }})
-                </div>
-                <p>Program: {{ student.program_of_study }}</p>
-                <p>Year of Study: {{ student.year_of_study }}</p>
-            </li>
-            {% endfor %}
-        </ul>
-    {% else %}
+<main>
+    <div class="container">
+        <h2>Students Applied to Your Vacancies</h2>
+        {% if students %}
+        <div class="recent-applications">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Registration Number</th>
+                        <th>Full Name</th>
+                        <th>Program of Study</th>
+                        <th>Year of Study</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                    <tr>
+                        <td>{{ student.registration_number }}</td>
+                        <td>{{ student.name }} {{ student.last_name }}</td>
+                        <td>{{ student.program_of_study }}</td>
+                        <td>{{ student.year_of_study }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
         <p>No students have applied to your vacancies yet.</p>
-    {% endif %}
-</div>
+        {% endif %}
+    </div>
+</main>
+{% include 'core/company/right.html' %}
 {% endblock %}
