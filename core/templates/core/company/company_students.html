@@ -3,10 +3,11 @@
 {% block content%}
 
 <main>
-    <div class="container">
-        <h2>Students Applied to Your Vacancies</h2>
-        {% if students %}
+    
+        
         <div class="recent-applications">
+            <h2>Students Applied to Your Vacancies</h2>
+            {% if students %}
             <table>
                 <thead>
                     <tr>
@@ -27,11 +28,12 @@
                     {% endfor %}
                 </tbody>
             </table>
+            {% else %}
+            <p>No students have applied to your vacancies yet.</p>
+            {% endif %}
         </div>
-        {% else %}
-        <p>No students have applied to your vacancies yet.</p>
-        {% endif %}
-    </div>
+        
+  
 </main>
 {% include 'core/company/right.html' %}
 {% endblock %}
