@@ -1,23 +1,35 @@
 {% extends 'core/student/index.html' %}
-{%  load static %}
+{% load static %}
+
 {% block content %}
-<h1>Internship Preparation</h1>
+<div class="container mt-4">
+    <h1>Internship Preparation</h1>
+    
+    <!-- Resume Section -->
+    <div class="mb-4">
+        <h2>Your Resume</h2>
+        {% if resume %}
+            <div>
+                <a href="{{ resume }}" target="_blank" class="btn btn-success btn-sm">View Resume</a>
+            </div>
+        {% else %}
+            <p>You have not uploaded a resume yet.</p>
+            <a href="{% url 'upload_resume' %}" class="btn btn-primary">Upload Resume</a>
+        {% endif %}
+    </div>
 
-<div>
-    <h2>Your Resume</h2>
-    {% if resume %}
-        <p><a href="{{ resume }}" target="_blank">View Resume</a></p>
-    {% else %}
-        <p>You have not uploaded a resume yet.</p>
-    {% endif %}
+    <!-- Cover Letter Section -->
+    <div class="mb-4">
+        <h2>Your Cover Letter</h2>
+        {% if cover_letter %}
+            <div>
+                <a href="{{ cover_letter }}" target="_blank" class="btn btn-success btn-sm">View Cover Letter</a>
+            </div>
+        {% else %}
+            <p>You have not uploaded a cover letter yet.</p>
+            <a href="{% url 'upload_cover_letter' %}" class="btn btn-primary">Upload Cover Letter</a>
+        {% endif %}
+    </div>
 </div>
 
-<div>
-    <h2>Your Cover Letter</h2>
-    {% if cover_letter %}
-        <p><a href="{{ cover_letter }}" target="_blank">View Cover Letter</a></p>
-    {% else %}
-        <p>You have not uploaded a cover letter yet.</p>
-    {% endif %}
-</div>
 {% endblock %}
