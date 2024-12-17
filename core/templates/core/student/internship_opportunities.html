@@ -27,10 +27,7 @@
               {% if vacancy.application_deadline > now %}
                 <!-- Active Vacancy Badge -->
                 <span class="badge bg-success">Active</span>
-              {% elif vacancy.application_deadline == now %}
-                <!-- Due Vacancy Badge -->
-                <span class="badge bg-warning text-dark">Due</span>
-              {% else %}
+              {% elif vacancy.application_deadline <= now %}
                 <!-- Inactive Vacancy Badge -->
                 <span class="badge bg-secondary">Inactive</span>
               {% endif %}
