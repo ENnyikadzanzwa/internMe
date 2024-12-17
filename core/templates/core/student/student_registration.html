@@ -8,6 +8,7 @@
     <title>Student Registration</title>
     <link rel="stylesheet" href="{% static 'auth/reg-styles.css' %}">
     <!-- SweetAlert CSS for styling alerts -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert Library -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 </head>
 <body>
@@ -71,8 +72,38 @@
             </div>
         </form>
     </div>
-
+     <!-- SweetAlert Script -->
+     <script>
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'success' %}
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: '{{ message }}',
+                        position: 'top',
+                        showConfirmButton: false,
+                        timer: 3000,
+                    }).then(() => {
+                        // Redirect to the student dashboard after success
+                        window.location.href = "{% url 'student_dashboard' %}";
+                    });
+                {% elif message.tags == 'error' %}
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error!',
+                        text: '{{ message }}',
+                        position: 'top',
+                        showConfirmButton: false,
+                        timer: 3000,
+                    });
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </script>
     <!-- SweetAlert JS for alerts -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 </body>
 </html>
+
+

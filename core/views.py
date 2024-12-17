@@ -91,10 +91,10 @@ def student_registration(request):
             try:
                 form.save()  # Create the User and link it to the existing Student
                 messages.success(request, "Your account has been created successfully!")
-                return redirect('login')  # Redirect to the login page
+                return redirect('student_registration')  # Redirect to the login page
             except IntegrityError:
                 # Handle IntegrityError (e.g., if the student registration number already exists)
-                sweetify.error(request, title="Error", message="This registration number already has an associated user account.", icon="error")
+                messages.error(request, title="Error", message="This registration number already has an associated user account.", icon="error")
         else:
             messages.error(request, "There was an error in your registration form. Please correct it.")
     else:
