@@ -1,5 +1,6 @@
 {% extends 'core/student/index.html' %}
 {% load static %}
+{% load tz %}  <!-- Load timezone utilities for time comparison -->
 
 {% block content %}
 <div class="pagetitle">
@@ -24,10 +25,10 @@
               <h6 class="card-subtitle mb-2 text-muted">{{ vacancy.company.name }}</h6>
               <p class="card-text">{{ vacancy.description }}</p>
 
-              {% if vacancy.application_deadline > now %}
+              {% if vacancy.application_deadline > now|timezone %}
                 <!-- Active Vacancy Badge -->
                 <span class="badge bg-success">Active</span>
-              {% elif vacancy.application_deadline <= now %}
+              {% elif vacancy.application_deadline <= now|timezone %}
                 <!-- Inactive Vacancy Badge -->
                 <span class="badge bg-secondary">Inactive</span>
               {% endif %}
