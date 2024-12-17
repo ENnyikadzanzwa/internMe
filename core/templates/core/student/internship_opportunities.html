@@ -1,5 +1,5 @@
 {% extends 'core/student/index.html' %}
-{%  load static %}
+{% load static %}
 
 {% block content %}
 <div class="pagetitle">
@@ -12,33 +12,29 @@
   </nav>
 </div><!-- End Page Title -->
 
-  <section class="section dashboard">
-        <div class="row">
-          <!-- internship_opportunities.html -->
-
-              {% if active_vacancies %}
-                <div class="card-deck">
-                  {% for vacancy in active_vacancies %}
-                    <div class="card">
-                      <div class="card-body">
-                        <h5 class="card-title">{{ vacancy.title }}</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">{{ vacancy.company.name }}</h6>
-                        <p class="card-text">{{ vacancy.description }}</p>
-                        <p class="card-text">
-                          <a href="{% url 'apply_for_vacancy' vacancy.id %}" class="btn btn-primary">Apply Now</a>
-                        </p>
-                        <a href="#" class="card-link">More Details</a>
-                        <a href="#" class="card-link">Company Website</a>
-                      </div>
-                    </div>
-                  {% endfor %}
-                </div>
-              {% else %}
-                <p>No active internship opportunities at the moment.</p>
-              {% endif %}
-
-
+<section class="section dashboard">
+  <div class="row">
+    {% if active_vacancies %}
+      <!-- Using Bootstrap grid system to display two cards per row -->
+      {% for vacancy in active_vacancies %}
+        <div class="col-md-6 mb-4">  <!-- Each card takes 6 columns on medium screens (2 cards per row) -->
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{{ vacancy.title }}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">{{ vacancy.company.name }}</h6>
+              <p class="card-text">{{ vacancy.description }}</p>
+              <p class="card-text">
+                <a href="{% url 'apply_for_vacancy' vacancy.id %}" class="btn btn-primary">Apply Now</a>
+              </p>
+              <a href="#" class="card-link">More Details</a>
+              <a href="#" class="card-link">Company Website</a>
+            </div>
+          </div>
         </div>
-     
-  </section>
+      {% endfor %}
+    {% else %}
+      <p>No active internship opportunities at the moment.</p>
+    {% endif %}
+  </div>
+</section>
 {% endblock %}
