@@ -228,7 +228,7 @@ def company_students(request):
 
 
 def invite_for_interview(request, student_id, vacancy_id):
-    if not request.user.is_authenticated or request.user.extendeduser.role != 'CompanyRep':
+    if not request.user.is_authenticated or request.user.extendeduser.role != 'Company Representative':
         return redirect('login')
 
     student = get_object_or_404(Student, id=student_id)
