@@ -23,7 +23,19 @@
               <h5 class="card-title">{{ vacancy.title }}</h5>
               <h6 class="card-subtitle mb-2 text-muted">{{ vacancy.company.name }}</h6>
               <p class="card-text">{{ vacancy.description }}</p>
-              <p class="card-text">
+
+              {% if vacancy.application_deadline > now %}
+                <!-- Active Vacancy Badge -->
+                <span class="badge bg-success">Active</span>
+              {% elif vacancy.application_deadline == now %}
+                <!-- Due Vacancy Badge -->
+                <span class="badge bg-warning text-dark">Due</span>
+              {% else %}
+                <!-- Inactive Vacancy Badge -->
+                <span class="badge bg-secondary">Inactive</span>
+              {% endif %}
+
+              <p class="card-text mt-2">
                 <a href="{% url 'apply_for_vacancy' vacancy.id %}" class="btn btn-primary">Apply Now</a>
               </p>
               <a href="#" class="card-link">More Details</a>
