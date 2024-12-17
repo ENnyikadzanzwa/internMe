@@ -130,28 +130,33 @@
 
                 <table class="table table-borderless datatable">
                   <thead>
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Vacancy Title</th>
-                      <th scope="col">Company</th>
-                      <th scope="col">Description</th>
-                      <th scope="col">Action</th>
-                    </tr>
+                      <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Vacancy Title</th>
+                          <th scope="col">Company</th>
+                          <th scope="col">Description</th>
+                          <th scope="col">Action</th>
+                      </tr>
                   </thead>
                   <tbody>
-                    {% for vacancy in available_vacancies %}
-                    <tr>
-                      <th scope="row">{{ forloop.counter }}</th>
-                      <td>{{ vacancy.title }}</td>
-                      <td>{{ vacancy.company.name }}</td>
-                      <td>{{ vacancy.description|truncatechars:100 }}</td>
-                      <td>
-                        <a href="{% url 'apply_for_vacancy' vacancy.id %}" class="btn btn-primary">Apply</a>
-                      </td>
-                    </tr>
-                    {% endfor %}
+                      {% for vacancy in available_vacancies %}
+                      <tr>
+                          <th scope="row">{{ forloop.counter }}</th>
+                          <td>{{ vacancy.title }}</td>
+                          <td>{{ vacancy.company.name }}</td>
+                          <td>{{ vacancy.description|truncatechars:100 }}</td>
+                          <td>
+                              {% if vacancy.id in applied_vacancy_ids %}
+                                  <span class="badge bg-success">Applied</span>
+                              {% else %}
+                                  <a href="{% url 'apply_for_vacancy' vacancy.id %}" class="btn btn-primary btn-sm">Apply</a>
+                              {% endif %}
+                          </td>
+                      </tr>
+                      {% endfor %}
                   </tbody>
-                </table>
+              </table>
+              
 
               </div>
 
