@@ -113,15 +113,26 @@ class Application(models.Model):
     def __str__(self):
         return f"Application by {self.student.user.username} for {self.vacancy.title}"
 
-# Notification model
 class Notification(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    message = models.TextField()
-    is_read = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
+    student = models.ForeignKey('Student', on_delete=models.CASCADE)
+    vacancy = models.ForeignKey('Vacancy', on_delete=models.CASCADE)
+    message = models.CharField(max_length=255)
+    is_confirmed = models.BooleanField(default=False)
+    date_sent = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Notification for {self.user.username}"
+        return f"Notification for {self.student.user.username}"
+
+class Waitlist(models.Model):
+    company = models.ForeignKey('Company', on_delete=models.CASCADE)
+    student = models.ForeignKey('Student', on_delete=models.CASCADE)
+    vacancy = models.ForeignKey('Vacancy', on_delete=models.CASCADE)
+    is_enrolled = models.BooleanField(default=False)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Waitlist: {self.student.user.username} for {self.company.name}"
+
 
 # Result model
 class Result(models.Model):

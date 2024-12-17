@@ -62,6 +62,10 @@ urlpatterns = [
     path('internship_opportunities/',views.internship_opportunities, name='internship_opportunities'),
     path('internship-preparation/', views.internship_preparation_view, name='internship_preparation'),
     path('profile/', views.profile_view, name='profile'),
+
+    path('invite/<int:student_id>/<int:vacancy_id>/', views.invite_for_interview, name='invite_for_interview'),
+    path('student/notifications/', views.student_notifications, name='student_notifications'),
+    path('company/waitlist/', views.company_waitlist, name='company_waitlist'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

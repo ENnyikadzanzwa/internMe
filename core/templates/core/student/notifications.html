@@ -1,0 +1,36 @@
+{% extends 'core/student/index.html' %}
+{% load static %}
+{% block content %}
+<h5>Interview Invitations</h5>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Vacancy</th>
+            <th>Company</th>
+            <th>Message</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for notification in notifications %}
+        <tr>
+            <td>{{ notification.vacancy.title }}</td>
+            <td>{{ notification.vacancy.company.name }}</td>
+            <td>{{ notification.message }}</td>
+            <td>
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="notification_id" value="{{ notification.id }}">
+                    <button type="submit" name="confirm" class="btn btn-primary btn-sm">Confirm</button>
+                    <button type="submit" name="decline" class="btn btn-danger btn-sm">Decline</button>
+                </form>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4" class="text-center">No notifications</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

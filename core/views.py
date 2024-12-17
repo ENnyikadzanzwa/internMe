@@ -190,6 +190,23 @@ def company_dashboard(request):
         'user': request.user,
     })
 
+def company_waitlist(request):
+    if not request.user.is_authenticated or request.user.extendeduser.role != 'CompanyRep':
+        return redirect('login')
+
+    waitlisted_students = Waitlist.objects.filter(company=request.user.company, is_enrolled=False)
+
+    if request.method == 'POST':
+        waitlist_id = request.POST.get('waitlist_id')
+        waitlist_entry = Waitlist.objects.get(id=waitlist_id, company=request.user.company)
+
+        # Enroll student
+        waitlist_entry.is_enrolled = True
+        waitlist_entry.save()
+
+        return redirect('company_waitlist')
+
+    return render(request, 'core/company/waitlist.html', {'waitlisted_students': waitlisted_students})
 
 @login_required
 def company_students(request):
@@ -209,6 +226,21 @@ def company_students(request):
         'students': students,
     })
 
+
+def invite_for_interview(request, student_id, vacancy_id):
+    if not request.user.is_authenticated or request.user.extendeduser.role != 'CompanyRep':
+        return redirect('login')
+
+    student = get_object_or_404(Student, id=student_id)
+    vacancy = get_object_or_404(Vacancy, id=vacancy_id)
+
+    # Create a notification for the student
+    Notification.objects.create(
+        student=student,
+        vacancy=vacancy,
+        message=f"You have been invited for an interview for {vacancy.title}."
+    )
+    return redirect('company_dashboard')  # Replace with your company dashboard URL
 
 @login_required
 def company_profile(request):
@@ -709,6 +741,34 @@ def student_dashboard(request):
         'applied_vacancy_ids': applied_vacancy_ids,  # Pass applied vacancy IDs
     })
 
+def student_notifications(request):
+    if not request.user.is_authenticated or request.user.extendeduser.role != 'Student':
+        return redirect('login')
+
+    student = request.user.student
+    notifications = Notification.objects.filter(student=student, is_confirmed=False)
+
+    if request.method == 'POST':
+        notification_id = request.POST.get('notification_id')
+        notification = Notification.objects.get(id=notification_id, student=student)
+
+        # Confirm the invitation
+        if 'confirm' in request.POST:
+            notification.is_confirmed = True
+            notification.save()
+
+            # Add student to the company waitlist
+            Waitlist.objects.create(
+                company=notification.vacancy.company,
+                student=student,
+                vacancy=notification.vacancy
+            )
+        elif 'decline' in request.POST:
+            notification.delete()
+
+        return redirect('student_notifications')
+
+    return render(request, 'core/student/notifications.html', {'notifications': notifications})
 
 
 from .forms import CustomPasswordChangeForm

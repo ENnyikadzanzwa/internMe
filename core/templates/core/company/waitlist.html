@@ -1,0 +1,35 @@
+{% extends 'core/company/main.html' %}
+{% load static %}
+{% block content%}
+<h5>Student Waitlist</h5>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Student</th>
+            <th>Vacancy</th>
+            <th>Date Added</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for entry in waitlisted_students %}
+        <tr>
+            <td>{{ entry.student.user.username }}</td>
+            <td>{{ entry.vacancy.title }}</td>
+            <td>{{ entry.date_added }}</td>
+            <td>
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="waitlist_id" value="{{ entry.id }}">
+                    <button type="submit" class="btn btn-success btn-sm">Enroll</button>
+                </form>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4" class="text-center">No students in waitlist</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
