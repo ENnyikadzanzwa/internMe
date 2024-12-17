@@ -240,7 +240,8 @@ def invite_for_interview(request, student_id, vacancy_id):
         vacancy=vacancy,
         message=f"You have been invited for an interview for {vacancy.title}."
     )
-    return redirect('company_dashboard')  # Replace with your company dashboard URL
+    messages.success("Successfully invited student")
+    return redirect('company_waitlist') 
 
 @login_required
 def company_profile(request):
