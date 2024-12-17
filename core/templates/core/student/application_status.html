@@ -1,45 +1,50 @@
 {% extends 'core/student/index.html' %}
-{%  load static %}
+{% load static %}
+
 {% block content %}
-<div class="container my-5">
-  <h2 class="mb-4">Application Status</h2>
-  <div class="table-responsive">
-    <table class="table table-bordered table-striped">
-      <thead class="table-dark">
-        <tr>
-          <th>#</th>
-          <th>Vacancy Title</th>
-          <th>Company</th>
-          <th>Date Applied</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for app in applications %}
+<div class="pagetitle">
+  <h1>Application Status</h1>
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'student_dashboard' %}">Home</a></li>
+      <li class="breadcrumb-item active">Application Status</li>
+    </ol>
+  </nav>
+</div><!-- End Page Title -->
+
+<section class="section dashboard">
+  <div class="row">
+    <div class="col-12">
+      <table class="table table-borderless datatable">
+        <thead>
           <tr>
-            <td>{{ forloop.counter }}</td>
-            <td>{{ app.vacancy.title }}</td>
-            <td>{{ app.vacancy.company.name }}</td>
-            <td>{{ app.date_applied|date:"M d, Y" }}</td>
+            <th scope="col">#</th>
+            <th scope="col">Vacancy Title</th>
+            <th scope="col">Company</th>
+            <th scope="col">Description</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for application in applications %}
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ application.vacancy.title }}</td>
+            <td>{{ application.vacancy.company.name }}</td>
+            <td>{{ application.vacancy.description|truncatechars:100 }}</td>
             <td>
-              {% if app.status == 'Approved' %}
-                <span class="badge bg-success">Approved</span>
-              {% elif app.status == 'Pending' %}
-                <span class="badge bg-warning">Pending</span>
-              {% elif app.status == 'Rejected' %}
-                <span class="badge bg-danger">Rejected</span>
+              {% if application.vacancy.id in applied_vacancy_ids %}
+                <span class="badge bg-success">Applied</span>
               {% else %}
-                <span class="badge bg-secondary">{{ app.status }}</span>
+                <a href="{% url 'apply_for_vacancy' application.vacancy.id %}" class="btn btn-primary btn-sm">Apply</a>
               {% endif %}
             </td>
           </tr>
-        {% empty %}
-          <tr>
-            <td colspan="5" class="text-center">You have not applied for any vacancies yet.</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
-</div>
+</section>
+
 {% endblock %}

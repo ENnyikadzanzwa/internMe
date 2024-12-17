@@ -761,6 +761,7 @@ def internship_preparation_view(request):
     return render(request, 'core/student/internship_preparation.html', context)
 
 
+
 def application_status(request):
     # Ensure the user is authenticated and is a student
     if not request.user.is_authenticated or not hasattr(request.user, 'student'):
@@ -770,8 +771,12 @@ def application_status(request):
     student = request.user.student
     applications = Application.objects.filter(student=student).select_related('vacancy', 'vacancy__company')
 
+    # Get a list of applied vacancy IDs to check if the student has applied
+    applied_vacancy_ids = applications.values_list('vacancy_id', flat=True)
+
     context = {
         'applications': applications,
+        'applied_vacancy_ids': applied_vacancy_ids,
     }
     return render(request, 'core/student/application_status.html', context)
 
