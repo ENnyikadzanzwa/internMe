@@ -689,19 +689,31 @@ def view_enrolled_students(request):
     return render(request, 'core/university/student_list.html', {'students': enrolled_students})
 
 #student dashboard
+# student_dashboard
 def student_dashboard(request):
     if not request.user.is_authenticated or request.user.extendeduser.role != 'Student':
         return redirect('login')  # Ensure only students can access this view
 
     student = request.user.student
+    
+    # Applications QuerySet
     applications = Application.objects.filter(student=student)
-    available_vacancies = Vacancy.objects.all()  # You can add filtering logic if needed
+    applied_internships = applications.count()
+    pending_applications = applications.filter(status='Pending').count()
+    completed_internships = applications.filter(status='Completed').count()
+
+    # Vacancies
+    available_vacancies = Vacancy.objects.all()  # Add filtering logic if needed
 
     return render(request, 'core/student/student_dashboard.html', {
         'student': student,
         'applications': applications,
-        'available_vacancies': available_vacancies
+        'available_vacancies': available_vacancies,
+        'applied_internships': applied_internships,
+        'pending_applications': pending_applications,
+        'completed_internships': completed_internships
     })
+
 
 
 from .forms import CustomPasswordChangeForm
