@@ -1,15 +1,42 @@
-<!-- create_resume.html -->
 {% extends 'core/student/index.html' %}
 {% block content %}
-<div class="container">
+<div class="container mt-4">
     <h2>Create Your Resume</h2>
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="resume_file">Upload Resume</label>
-            <input type="file" name="resume_file" class="form-control" required>
+
+    <div class="row">
+        <!-- Left Card (Form) -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Upload Your Resume</h5>
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group mb-3">
+                            <label for="resume_file">Choose Resume File</label>
+                            <input type="file" name="resume_file" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Create Resume</button>
+                    </form>
+                </div>
+            </div>
         </div>
-        <button type="submit" class="btn btn-primary">Create Resume</button>
-    </form>
+
+        <!-- Right Card (Tips) -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Tips for Creating a Strong Resume</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="bi bi-check-circle"></i> Keep it concise: Limit your resume to one or two pages.</li>
+                        <li><i class="bi bi-check-circle"></i> Highlight your skills and experience relevant to the job you're applying for.</li>
+                        <li><i class="bi bi-check-circle"></i> Include measurable achievements to show the impact of your work.</li>
+                        <li><i class="bi bi-check-circle"></i> Use a professional and easy-to-read layout.</li>
+                        <li><i class="bi bi-check-circle"></i> Tailor your resume for each specific job position.</li>
+                        <li><i class="bi bi-check-circle"></i> Proofread for spelling and grammatical errors before submitting.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
