@@ -35,7 +35,9 @@ urlpatterns = [
     path('company/profile/', views.company_profile, name='company_profile'),
     path('company/profile/edit/', views.edit_company_profile, name='edit_company_profile'),
     path('company/students/', views.company_students, name='company_students'),
-
+    path('invite/<int:student_id>/<int:vacancy_id>/', views.invite_for_interview, name='invite_for_interview'),
+    path('company/waitlist/', views.company_waitlist, name='company_waitlist'),
+    
     #university dashboard
     path('university-dashboard/', views.university_dashboard, name='university_dashboard'),
     path('add_student/', views.add_student, name='add_student'),
@@ -63,9 +65,9 @@ urlpatterns = [
     path('internship-preparation/', views.internship_preparation_view, name='internship_preparation'),
     path('profile/', views.profile_view, name='profile'),
 
-    path('invite/<int:student_id>/<int:vacancy_id>/', views.invite_for_interview, name='invite_for_interview'),
+    
     path('student/notifications/', views.student_notifications, name='student_notifications'),
-    path('company/waitlist/', views.company_waitlist, name='company_waitlist'),
+    
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
