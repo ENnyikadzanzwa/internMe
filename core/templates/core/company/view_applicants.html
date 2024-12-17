@@ -23,7 +23,7 @@
                     <td>{{ application.applied_at }}</td>
                     <!-- Invite to Interview -->
                     <td>
-                        <a href="{% url 'invite_for_interview' student.id vacancy.id %}" class="btn btn-success btn-sm">Invite</a>
+                        <a href="{% url 'invite_for_interview' application.student.id vacancy.id %}" class="btn btn-success btn-sm">Invite</a>
                     </td>
 
                 </tr>
