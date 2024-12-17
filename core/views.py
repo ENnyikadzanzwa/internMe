@@ -191,7 +191,7 @@ def company_dashboard(request):
     })
 
 def company_waitlist(request):
-    if not request.user.is_authenticated or request.user.extendeduser.role != 'Company Represantantive':
+    if not request.user.is_authenticated or request.user.extendeduser.role != 'Company Representative':
         return redirect('login')
 
     waitlisted_students = Waitlist.objects.filter(company=request.user.company, is_enrolled=False)
