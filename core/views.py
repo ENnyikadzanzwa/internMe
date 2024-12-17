@@ -20,7 +20,7 @@ from django.db.models.functions import Cast
 from django.urls import reverse_lazy
 from django.views.generic.edit import UpdateView
 from django.utils.decorators import method_decorator
-
+from django.utils import timezone
 import sweetify
 
 def login_view(request):
@@ -776,9 +776,11 @@ def application_status(request):
     return render(request, 'core/student/application_status.html', context)
 
 
+
+
 def internship_opportunities(request):
     # Fetch all active vacancies
-    active_vacancies = Vacancy.objects.filter(application_deadline__gte=now())
+    active_vacancies = Vacancy.objects.filter(application_deadline__gte=timezone.now())
 
     # Check if the student is logged in and a valid student
     if request.user.is_authenticated and hasattr(request.user, 'student'):
@@ -788,8 +790,10 @@ def internship_opportunities(request):
 
     context = {
         'active_vacancies': active_vacancies,
+        'current_time': timezone.now(),  # Pass the current time to the template
     }
     return render(request, 'core/student/internship_opportunities.html', context)
+
 
 
 @login_required
