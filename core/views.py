@@ -240,7 +240,7 @@ def invite_for_interview(request, student_id, vacancy_id):
         vacancy=vacancy,
         message=f"You have been invited for an interview for {vacancy.title}."
     )
-    messages.success("Successfully invited student")
+    
     return redirect('company_waitlist') 
 
 @login_required
