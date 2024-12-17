@@ -25,7 +25,7 @@
                         <h6 class="card-subtitle mb-2 text-muted">{{ vacancy.company.name }}</h6>
                         <p class="card-text">{{ vacancy.description }}</p>
                         <p class="card-text">
-                          <a href="{% url 'vacancy_detail' vacancy.id %}" class="btn btn-primary">Apply Now</a>
+                          <a href="{% url 'apply_for_vacancy' vacancy.id %}" class="btn btn-primary">Apply Now</a>
                         </p>
                         <a href="#" class="card-link">More Details</a>
                         <a href="#" class="card-link">Company Website</a>
