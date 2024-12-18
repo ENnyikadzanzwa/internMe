@@ -55,6 +55,7 @@ urlpatterns = [
     path('analytics/performance-analytics/', views.performance_analytics, name='performance_analytics'),
     path('university/edit/', views.UniversityUpdateView.as_view(), name='edit_university_profile'),
     path('university/profile/', views.university_profile, name='university_profile'),
+    path('messages/', views.all_messages_view, name='university_messages'),
 
 
     

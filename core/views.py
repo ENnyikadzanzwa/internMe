@@ -517,7 +517,8 @@ def university_dashboard(request):
         return redirect('login')
 
     students = Student.objects.filter(university=university)
-
+    
+    messages = Message.objects.filter(recipient=university).order_by('-sent_at')[:5]  # Fetch the latest 5 messages
     total_students = students.count()
     enrolled_students = students.filter(year_of_study__gt=0).count()
     students_due_for_attachment = students.filter(year_of_study__gte=3).count()
@@ -541,8 +542,17 @@ def university_dashboard(request):
         'total_students_data': total_students_data,
         'enrolled_students_data': enrolled_students_data,
         'attachment_due_data': attachment_due_data,
+        'messages': messages,
     })
 
+def all_messages_view(request):
+    if not request.user.is_authenticated or not hasattr(request.user, 'university'):
+        return redirect('login')
+
+    university = request.user.university
+    messages = Message.objects.filter(recipient=university).order_by('-sent_at')
+
+    return render(request, 'core/university/all_messages.html', {'messages': messages})
 
 
 @login_required
