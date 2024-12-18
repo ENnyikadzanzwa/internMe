@@ -245,8 +245,9 @@ def view_department_students(request, department_id):
     # Fetch the specific department
     department = get_object_or_404(CompanyDepartment, id=department_id, company=company)
 
-    # Fetch all students in the department
-    students = Student.objects.filter(department=department)
+    # Fetch all students associated with the department
+    company_students = CompanyStudent.objects.filter(department=department)
+    students = [company_student.student for company_student in company_students]
 
     return render(request, 'core/company/department_students.html', {'department': department, 'students': students})
 
