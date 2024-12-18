@@ -546,7 +546,7 @@ def university_dashboard(request):
     })
 
 def all_messages_view(request):
-    if not request.user.is_authenticated or not hasattr(request.user, 'university'):
+    if not request.user.is_authenticated or request.user.extendeduser.role != 'University Admin':
         return redirect('login')
 
     university = request.user.university
