@@ -193,20 +193,32 @@ def company_dashboard(request):
 def company_waitlist(request):
     if not request.user.is_authenticated or request.user.extendeduser.role != 'Company Representative':
         return redirect('login')
-    
-    waitlisted_students = Waitlist.objects.filter(company=request.user.company, is_enrolled=False)
+
+    try:
+        # Get the company associated with the current user
+        company = Company.objects.get(company_rep=request.user)
+    except Company.DoesNotExist:
+        # Handle the case where no company is associated with the user
+        return redirect('login')
+
+    # Fetch waitlisted students for the company
+    waitlisted_students = Waitlist.objects.filter(company=company, is_enrolled=False)
 
     if request.method == 'POST':
         waitlist_id = request.POST.get('waitlist_id')
-        waitlist_entry = Waitlist.objects.get(id=waitlist_id, company=request.user.company)
-
-        # Enroll student
-        waitlist_entry.is_enrolled = True
-        waitlist_entry.save()
+        try:
+            waitlist_entry = Waitlist.objects.get(id=waitlist_id, company=company)
+            # Enroll student
+            waitlist_entry.is_enrolled = True
+            waitlist_entry.save()
+        except Waitlist.DoesNotExist:
+            # Handle the case where the waitlist entry does not exist
+            return redirect('company_waitlist')
 
         return redirect('company_waitlist')
 
     return render(request, 'core/company/waitlist.html', {'waitlisted_students': waitlisted_students})
+
 
 @login_required
 def company_students(request):
