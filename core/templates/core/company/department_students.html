@@ -1,0 +1,17 @@
+{% extends 'core/company/main.html' %}
+{% load static %}
+{% block content%}
+<h2>Students in {{ department.name }}</h2>
+
+<ul>
+    {% for student in students %}
+    <li>{{ student.name }} ({{ student.university.name }})</li>
+    {% endfor %}
+</ul>
+
+{% if not students %}
+<p>No students are enrolled in this department yet.</p>
+{% endif %}
+
+<a href="{% url 'manage_departments' %}">Back to Departments</a>
+{% endblock %}

@@ -5,11 +5,28 @@
 
 <!-- Display existing departments -->
 <h3>Existing Departments</h3>
-<ul>
-    {% for department in departments %}
-        <li>{{ department.name }}</li>
-    {% endfor %}
-</ul>
+<table>
+    <thead>
+        <tr>
+            <th>Department Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for department in departments %}
+        <tr>
+            <td>{{ department.name }}</td>
+            <td>
+                <!-- Edit button -->
+                <button onclick="showEditForm({{ department.id }}, '{{ department.name }}')">Edit</button>
+                <!-- View students button -->
+                <a href="{% url 'view_department_students' department.id %}">View Students</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
 {% if not departments %}
 <p>No departments created yet.</p>
 {% endif %}
@@ -18,10 +35,25 @@
 <h3>Create a New Department</h3>
 <form method="POST">
     {% csrf_token %}
+    <input type="hidden" name="create_department" value="1">
     <label for="department_name">Department Name:</label>
     <input type="text" id="department_name" name="department_name" required>
     <button type="submit">Create Department</button>
 </form>
+
+<!-- Edit department form (hidden by default) -->
+<div id="edit-form" style="display: none;">
+    <h3>Edit Department</h3>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="edit_department" value="1">
+        <input type="hidden" id="department_id" name="department_id">
+        <label for="new_name">New Department Name:</label>
+        <input type="text" id="new_name" name="new_name" required>
+        <button type="submit">Save Changes</button>
+        <button type="button" onclick="hideEditForm()">Cancel</button>
+    </form>
+</div>
 
 <!-- Display success or error messages -->
 {% if messages %}
@@ -31,4 +63,16 @@
         {% endfor %}
     </ul>
 {% endif %}
+
+<script>
+function showEditForm(id, name) {
+    document.getElementById('edit-form').style.display = 'block';
+    document.getElementById('department_id').value = id;
+    document.getElementById('new_name').value = name;
+}
+
+function hideEditForm() {
+    document.getElementById('edit-form').style.display = 'none';
+}
+</script>
 {% endblock %}

@@ -191,12 +191,13 @@ def company_dashboard(request):
     })
 
 
+
+
 def manage_departments(request):
     if not request.user.is_authenticated or request.user.extendeduser.role != 'Company Representative':
         return redirect('login')
 
     try:
-        # Fetch the company associated with the current user
         company = Company.objects.get(company_rep=request.user)
     except Company.DoesNotExist:
         return redirect('login')
@@ -206,20 +207,48 @@ def manage_departments(request):
 
     if request.method == 'POST':
         # Handle new department creation
-        department_name = request.POST.get('department_name')
-        if department_name:
-            if CompanyDepartment.objects.filter(company=company, name=department_name).exists():
-                messages.error(request, "Department with this name already exists.")
+        if 'create_department' in request.POST:
+            department_name = request.POST.get('department_name')
+            if department_name:
+                if CompanyDepartment.objects.filter(company=company, name=department_name).exists():
+                    messages.error(request, "Department with this name already exists.")
+                else:
+                    CompanyDepartment.objects.create(company=company, name=department_name)
+                    messages.success(request, f"Department '{department_name}' created successfully!")
             else:
-                CompanyDepartment.objects.create(company=company, name=department_name)
-                messages.success(request, f"Department '{department_name}' created successfully!")
-        else:
-            messages.error(request, "Department name cannot be empty.")
+                messages.error(request, "Department name cannot be empty.")
+
+        # Handle department editing
+        elif 'edit_department' in request.POST:
+            department_id = request.POST.get('department_id')
+            new_name = request.POST.get('new_name')
+            if department_id and new_name:
+                department = get_object_or_404(CompanyDepartment, id=department_id, company=company)
+                department.name = new_name
+                department.save()
+                messages.success(request, f"Department updated to '{new_name}' successfully!")
 
         return redirect('manage_departments')
 
     return render(request, 'core/company/manage_departments.html', {'departments': departments})
 
+
+def view_department_students(request, department_id):
+    if not request.user.is_authenticated or request.user.extendeduser.role != 'Company Representative':
+        return redirect('login')
+
+    try:
+        company = Company.objects.get(company_rep=request.user)
+    except Company.DoesNotExist:
+        return redirect('login')
+
+    # Fetch the specific department
+    department = get_object_or_404(CompanyDepartment, id=department_id, company=company)
+
+    # Fetch all students in the department
+    students = Student.objects.filter(department=department)
+
+    return render(request, 'core/company/department_students.html', {'department': department, 'students': students})
 
 def company_waitlist(request):
     if not request.user.is_authenticated or request.user.extendeduser.role != 'Company Representative':
