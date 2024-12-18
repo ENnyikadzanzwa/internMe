@@ -18,11 +18,18 @@
             <td>{{ entry.vacancy.title }}</td>
             <td>{{ entry.date_added }}</td>
             <td>
-                <form method="post">
+                <form method="POST">
                     {% csrf_token %}
-                    <input type="hidden" name="waitlist_id" value="{{ entry.id }}">
-                    <button type="submit" class="btn btn-success btn-sm">Enroll</button>
+                    <input type="hidden" name="waitlist_id" value="{{ student.id }}">
+                    <label for="department">Select Department:</label>
+                    <select name="department_id" required>
+                        {% for department in departments %}
+                            <option value="{{ department.id }}">{{ department.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit">Enroll</button>
                 </form>
+                
             </td>
         </tr>
         {% empty %}

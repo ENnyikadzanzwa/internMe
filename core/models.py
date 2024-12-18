@@ -81,6 +81,20 @@ class Company(models.Model):
 
     def __str__(self):
         return self.name
+class CompanyDepartment(models.Model):
+    company = models.ForeignKey('Company', on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"{self.name} ({self.company.name})"
+class CompanyStudent(models.Model):
+    company = models.ForeignKey('Company', on_delete=models.CASCADE)
+    department = models.ForeignKey('CompanyDepartment', on_delete=models.CASCADE)
+    student = models.ForeignKey('Student', on_delete=models.CASCADE)
+    date_enrolled = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.student.user.username} - {self.department.name}"
 
 # Vacancy model
 class Vacancy(models.Model):
@@ -122,6 +136,15 @@ class Notification(models.Model):
 
     def __str__(self):
         return f"Notification for {self.student.user.username}"
+
+class Message(models.Model):
+    recipient = models.ForeignKey('University', on_delete=models.CASCADE)
+    sender = models.ForeignKey('Company', on_delete=models.CASCADE)
+    content = models.TextField()
+    sent_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Message from {self.sender.name} to {self.recipient.name}"
 
 class Waitlist(models.Model):
     company = models.ForeignKey('Company', on_delete=models.CASCADE)

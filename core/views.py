@@ -190,6 +190,37 @@ def company_dashboard(request):
         'user': request.user,
     })
 
+
+def manage_departments(request):
+    if not request.user.is_authenticated or request.user.extendeduser.role != 'Company Representative':
+        return redirect('login')
+
+    try:
+        # Fetch the company associated with the current user
+        company = Company.objects.get(company_rep=request.user)
+    except Company.DoesNotExist:
+        return redirect('login')
+
+    # Fetch all existing departments for this company
+    departments = CompanyDepartment.objects.filter(company=company)
+
+    if request.method == 'POST':
+        # Handle new department creation
+        department_name = request.POST.get('department_name')
+        if department_name:
+            if CompanyDepartment.objects.filter(company=company, name=department_name).exists():
+                messages.error(request, "Department with this name already exists.")
+            else:
+                CompanyDepartment.objects.create(company=company, name=department_name)
+                messages.success(request, f"Department '{department_name}' created successfully!")
+        else:
+            messages.error(request, "Department name cannot be empty.")
+
+        return redirect('manage_departments')
+
+    return render(request, 'core/company/manage_departments.html', {'departments': departments})
+
+
 def company_waitlist(request):
     if not request.user.is_authenticated or request.user.extendeduser.role != 'Company Representative':
         return redirect('login')
@@ -198,7 +229,6 @@ def company_waitlist(request):
         # Get the company associated with the current user
         company = Company.objects.get(company_rep=request.user)
     except Company.DoesNotExist:
-        # Handle the case where no company is associated with the user
         return redirect('login')
 
     # Fetch waitlisted students for the company
@@ -206,18 +236,46 @@ def company_waitlist(request):
 
     if request.method == 'POST':
         waitlist_id = request.POST.get('waitlist_id')
+        department_id = request.POST.get('department_id')  # Add department from form
         try:
             waitlist_entry = Waitlist.objects.get(id=waitlist_id, company=company)
+            department = CompanyDepartment.objects.get(id=department_id, company=company)
+
             # Enroll student
             waitlist_entry.is_enrolled = True
             waitlist_entry.save()
-        except Waitlist.DoesNotExist:
-            # Handle the case where the waitlist entry does not exist
+
+            # Add student to the company department
+            CompanyStudent.objects.create(
+                company=company,
+                department=department,
+                student=waitlist_entry.student,
+            )
+
+            # Notify the university
+            Message.objects.create(
+                recipient=waitlist_entry.student.university,
+                sender=company,
+                content=(
+                    f"Student {waitlist_entry.student.user.username} has been successfully enrolled in "
+                    f"{company.name}, Department: {department.name}."
+                ),
+            )
+
+        except (Waitlist.DoesNotExist, CompanyDepartment.DoesNotExist):
             return redirect('company_waitlist')
 
         return redirect('company_waitlist')
 
-    return render(request, 'core/company/waitlist.html', {'waitlisted_students': waitlisted_students})
+    # Fetch all departments for the company to populate the form
+    departments = CompanyDepartment.objects.filter(company=company)
+
+    return render(
+        request, 
+        'core/company/waitlist.html', 
+        {'waitlisted_students': waitlisted_students, 'departments': departments}
+    )
+
 
 
 @login_required

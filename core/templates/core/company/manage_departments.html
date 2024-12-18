@@ -1,0 +1,34 @@
+{% extends 'core/company/main.html' %}
+{% load static %}
+{% block content%}
+<h2>Manage Departments</h2>
+
+<!-- Display existing departments -->
+<h3>Existing Departments</h3>
+<ul>
+    {% for department in departments %}
+        <li>{{ department.name }}</li>
+    {% endfor %}
+</ul>
+{% if not departments %}
+<p>No departments created yet.</p>
+{% endif %}
+
+<!-- Form to add a new department -->
+<h3>Create a New Department</h3>
+<form method="POST">
+    {% csrf_token %}
+    <label for="department_name">Department Name:</label>
+    <input type="text" id="department_name" name="department_name" required>
+    <button type="submit">Create Department</button>
+</form>
+
+<!-- Display success or error messages -->
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+{% endblock %}

@@ -37,6 +37,7 @@ urlpatterns = [
     path('company/students/', views.company_students, name='company_students'),
     path('invite/<int:student_id>/<int:vacancy_id>/', views.invite_for_interview, name='invite_for_interview'),
     path('company/waitlist/', views.company_waitlist, name='company_waitlist'),
+    path('manage-departments/', views.manage_departments, name='manage_departments'),
     
     #university dashboard
     path('university-dashboard/', views.university_dashboard, name='university_dashboard'),
