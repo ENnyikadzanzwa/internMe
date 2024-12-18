@@ -20,7 +20,7 @@
             <td>
                 <form method="POST">
                     {% csrf_token %}
-                    <input type="hidden" name="waitlist_id" value="{{ student.id }}">
+                    <input type="hidden" name="waitlist_id" value="{{ entry.id }}">
                     <label for="department">Select Department:</label>
                     <select name="department_id" required>
                         {% for department in departments %}
@@ -29,6 +29,7 @@
                     </select>
                     <button type="submit">Enroll</button>
                 </form>
+                
                 
             </td>
         </tr>
