@@ -549,10 +549,11 @@ def all_messages_view(request):
     if not request.user.is_authenticated or request.user.extendeduser.role != 'University Admin':
         return redirect('login')
 
-     try:
+    try:
         university = University.objects.get(university_admin=request.user)
     except University.DoesNotExist:
         return redirect('login')
+
     messages = Message.objects.filter(recipient=university).order_by('-sent_at')
 
     return render(request, 'core/university/all_messages.html', {'messages': messages})
